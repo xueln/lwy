@@ -1,0 +1,342 @@
+header{
+	width:100%;
+	height:93px;
+	border-top:5px solid #484442;
+	background-color:#fff;	
+}
+header ul{
+	list-style:none;
+	margin:0;
+	padding:0;
+	float:left;
+}
+header input{
+	outline:none;
+	border:none;
+	margin:9px 0 0 15px;
+}
+header a{
+	text-decoration:none;
+	color:#333;
+	font-size:16px;
+}	
+header .center{
+	width:1200px;
+	height:100%;
+	margin:0 auto;
+	display: flex;
+	align-items: center;
+}
+header #logo_icon,header #classify_icon,header #search_icon,header #user_icon,header #car_icon{
+	background:url(../../../public/images/bgr.png) no-repeat;
+}
+header #logo_icon{
+	width:57px;
+	height:57px;
+	border-radius:50%;
+	margin:-3px 17px 0 0; 
+	background-color:#c1413d;
+	transition:background-position 0.2s;
+}
+header #logo_icon:hover{
+	background-position:-57px 0;
+}
+/* 礼物分类 */
+header #classify{
+	width:133px;
+	height:65px;
+	border-top:5px solid #484442;
+	margin-top:-5px;
+	text-align: center;
+	padding-top:28px;
+	line-height: 2;
+	position: relative;
+}
+header #classify_icon{
+	width:14px;
+	height:12px;
+	background-position:-205px 0;
+	margin:4.5px 0 0 0;
+
+}
+/* 礼物分类的下拉菜单 */
+header .classify_pop{
+	width:100%;
+	background-color: #fff9aa;
+	border-top: 2px solid #f1ea8b;
+	box-shadow: 2px 2px 4px 1px #e2e2e2; 
+	position: absolute;
+	top:93px;
+	height:0px; 
+	opacity: 0;
+	transition: .3s linear;
+	overflow: hidden;
+}
+header .classify_pop li{
+	padding:10px 0;
+	border-top:1px solid #f7f19d;
+}
+header .classify_pop li:last-child{
+	padding:0;
+}
+header .classify_pop li a{
+
+	font-size: 14px;
+}
+/* 鼠标悬停 礼物分类的下拉菜单显示 */
+header #classify:hover .classify_pop{
+	z-index:99;
+	opacity: 1;
+	height:374px;
+}
+header #classify:hover{
+	border-color:#fff9aa;
+} 
+header .pro_nav{
+	width:428px;
+	height: 100%;
+}
+header .pro_nav li{
+	box-sizing: border-box;
+	float:left;
+	padding-top:28px;
+	line-height: 2;
+	height:100%;
+}
+header .pro_nav li:first-child{
+	margin-left: 21px;
+}
+header .pro_nav li:not(:first-child){
+	margin-left: 45px;
+}
+header #classify a:hover,header .pro_nav li a:hover{
+	color:#c1413d;
+}
+/* 搜索框 */
+header .search{
+	width:239px;
+	height:33px;
+	margin:0px 0 0 13%;
+	border:1px solid #e6e6e6;
+	border-radius:31px;
+}
+header .search #search_icon{
+	width:15px;
+	height:14px;
+	float:right;
+	background-position:-133px 0;
+	margin:9px 14px 0 5px;
+}
+header .user,.car{
+	position: relative;
+	float:right;
+	width:28px;
+	height:28px;
+	border:2px solid #e9e9e9;
+	border-radius:50%;
+	transition:.3s;
+}
+header .user{
+	margin:0 5px 0 84px;	
+}
+header .user:hover,.car:hover{
+	border-color:#c1413d;
+}
+header #user_icon{
+	width:14px;
+	height:14px;
+	margin:7px;
+	background-position:-149px 0px;
+	transition:.3s;
+}
+
+header #car_icon{
+	width:17px;
+	height:14px;
+	margin:7px 5px;
+	background-position:-164px 0;
+	transition: .5s;
+}
+header .user:hover #user_icon{
+	background-position:-149px -14px;
+}
+header .car:hover #car_icon{
+	background-position:-164px -14px;
+}
+/* user cart图标鼠标悬停 显示下拉框 */
+.user:hover .user_box{
+	z-index:9;
+}
+.car:hover .cart_box{
+	z-index:9;
+}
+header .box{
+	z-index: -1;
+	position: absolute;
+	top:48px;
+	padding:30px 0;
+	border:1px solid #ececec;
+	background-color: #fff;
+	border-radius: 2px;
+	transition: .5s linear;
+	cursor: default;
+}
+header .user_box{
+	width:152px;
+	left:-60px;
+}
+/* 下拉框上面的小三角 */
+header .triangle{
+	width:14px;
+	height:6px;
+	display: inline-block;
+	position:absolute;
+	left:50%;
+	top: -6px;
+	margin-left: -7px;
+	background:url(../../../public/images/bgr.png) no-repeat -118px 0px;
+}
+header .user_box ul li:first-child a{
+	color:#b28850;
+}
+header .user_box ul {
+	width:100%;
+	text-align: center;
+	font-size: 14px;
+}
+header .user_box ul li:not(:last-child){
+	margin-bottom:10px;
+}
+/* 购物车鼠标悬停的下拉菜单 */
+
+header .car .cart_count{
+	display: block;
+	width:15px;
+	height: 15px;
+	line-height: 15px;
+	background-color:#d93732;
+	border-radius: 50%;
+	color:#fff;
+	position: absolute;
+	top:-5px;
+	right:-3px;
+	font-size: 10px;
+	text-align: center;
+}
+header  .cart_box{
+	width:296px;
+	right:-18px;
+	padding:20px 30px;
+	background-color: #fff;
+	font-size: 14px;
+}
+/* 购物车的上边三角 */
+header  .cart_box .cart_tri{
+	left:92%;
+}
+/* 购物车中没有商品 */
+header  .cart_box .cart_empty{
+	text-align:center;
+	color:#999;
+	font-size:12px;
+	padding:20px 0;
+}
+/* 购物车中有商品 */
+header  .cart_box ul{
+	width:100%;
+}
+header  .cart_box ul li{
+	padding:15px 0;
+	border-bottom:1px solid #ececec;
+}
+header  .cart_box ul li img{
+	width:60px;
+	height:60px;
+}
+header  .cart_box ul li,header  .cart_box ul li div:first-child{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+header .cart_box ul li p:last-child{
+	text-align:right;
+}
+/* 结算 */
+header .cart_box .banlance{
+	width:100%;
+	padding:20px 0;
+	display: flex;
+	justify-content: space-between;
+}
+header  .cart_box .banlance .c-d93732{
+	color:#d93732;
+}
+header  .cart_box .banlance a{
+	display: block;
+	line-height: 24px;
+	padding:7px 23px;
+	font-size: 12px;
+	background-color: #d93732;
+	color:#fff;
+	transition: .3s linear;
+}
+header .cart_box .banlance a:hover{
+	background-color: #ed3d38;
+}
+/* 送礼导航下拉菜单 */
+header .pro_nav li:first-child:hover .nav_menu{
+	z-index: 8;
+	/* opacity: 1; */
+}
+header .nav_menu{
+	position: absolute;
+	top:98px;
+	left:0;
+	width:100%;
+	background-color: #fff;	
+	padding:30px 0;
+	border-top:1px solid #ededed;
+	border-bottom:2px solid #ededed;
+	z-index: -1;
+	transition: .3s linear;
+	
+}
+header .nav_menu .menu_center{
+	box-sizing: border-box;
+	width:1200px;
+	margin:0 auto;
+	padding-left:90px;
+
+}
+/* 送给谁 为啥送等内容样式 */
+header .nav_menu .menu_center dl{
+	display: flex;
+	padding:10px 0 10px;
+}
+header .nav_menu .menu_center dl:first-child{
+	border-bottom: 1px solid #f5f5f5;
+}
+header .nav_menu .menu_center dl dt{
+	padding-left:20px;
+}
+header .nav_menu a{
+	font-size:14px;
+	padding:0 10px 0 10px;
+	color:#333;
+}
+header .nav_menu a:hover{
+	color:#c1413d;
+}
+header .nav_menu .menu_center div:last-child{
+	padding:15px 0 0 700px;
+}
+header .nav_menu .menu_center div:last-child a{
+	padding:10px 32px;
+	color:#fff;
+	background-color: #c1413d;
+	border-radius: 3px;
+}
+header .nav_menu .menu_center div:last-child a:hover{
+	background-color: #d93732;
+	transition: .3s linear;
+}

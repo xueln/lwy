@@ -1,0 +1,215 @@
+/* 设置轮播图 */
+#main .carousel{
+  width:100%;
+  height:480px;
+}
+
+/* 提供的服务 */
+#main #services{
+ height:109px;  
+}
+/* 设置弹性布局 宽度1200px 容器水平居中 项目垂直居中*/
+#main .flex_w12{
+  width:1200px;
+  height:100%;
+  display:flex;
+  justify-content: space-around;
+  align-items: center;
+  margin:auto; 
+}
+/* 交叉轴排列 */
+#main .space_betw{
+  justify-content: space-between;
+}
+#main #services ul li{
+  color:#666;
+  font-size:18px;
+}
+/* 设置图标背景 并与文字垂直居中对齐 */
+#main #services ul li i{
+  display:inline-block;
+  width:52px;
+  height:52px;
+  background: url(../../../public/images/bgr1.png) no-repeat 0px -53px;
+  vertical-align: middle;
+  margin-right:16px;
+}
+#main #services ul li:nth-child(2) i{
+  background-position: -53px -53px;
+}
+#main #services ul li:nth-child(3) i{
+  background-position: -106px -53px;
+}
+#main #services ul li:last-child i{
+  background-position: -159px -53px;
+}
+/* 商品列表部分 上下内边距*/
+#main #content{
+  padding:45px 0 80px;
+}
+/* 礼物选择部分 */
+#main #selections ul li{
+  position:relative;
+}
+#main #selections ul a:hover img{
+  transform:scale(0.96);
+} 
+/* 标题的上下外边距 */
+#main .m-title{
+  margin-bottom:28px;
+  margin-top:45px;
+}
+/* 新品推荐title */
+#main .bg_title{
+  background: url(../../../public/images/index/diy-title.png) no-repeat center;
+}
+#main .bg_title h3{
+ font-size:20px;
+ padding:0 20px 0 10px;
+ font-weight:400;
+}
+#main .bg_title a{
+  padding:0 10px 0;
+}
+#main #new_pro{
+  flex-wrap: wrap;
+}
+#main #new_pro li{
+  margin-bottom:15px;
+  height:250px;
+  /* overflow: hidden; */
+}
+#main #new_pro li a{
+  display: inline-block;
+  height:100%;
+  position: relative;
+}
+/* 设置鼠标悬停后 图片的遮罩效果*/
+#main #new_pro li a::before{
+  content:"";
+  display:inline-block;
+  width:0px;
+  height:100%;
+  position: absolute;
+  top:0;bottom:0;left:0;right:0;
+  margin:auto;
+  background-color:rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: .4s linear;
+}
+#main #new_pro li a:hover:before{
+  opacity: 0.3;
+  width:100%;
+}
+/* 设置第一个图片 鼠标悬停后 搜索图标显示并向上滑动效果*/
+#main #new_pro #s_icon{
+  position: absolute;
+  top:0;bottom:0;left:0;right:0;
+  margin:auto; 
+  transform:translateY(50px); 
+  opacity: 0; 
+}
+#main #new_pro li:first-child a:hover #s_icon{
+  transition:all 0.5s linear; 
+  opacity: 0.8;
+  transform:translateY(10px); 
+}
+/* 测试图片立体效果 */
+#main #new_pro li:not(:first-child) a:hover img{
+  transition: .3s linear;
+  box-shadow:0px 0px 5px 2px #aaa;
+}
+/* 生日礼物 商品样式 */
+#main .birth_create{
+  justify-content: flex-start;
+  /* align-items: flex-start; */
+}
+/* 左侧图片*/
+#main .birth_create .pro_left {
+  margin-right:12px;
+  margin-bottom:15px;
+}
+/* 右侧部分 */
+#main .birth_create .pro_right{
+  display:flex;
+  flex-wrap: wrap;
+}
+/* 右侧部分的商品图片尺寸 */
+#main .birth_create .pro_right img{
+  width: 160px;
+  height: 160px;
+}
+#main .birth_create .pro_right li{
+  box-sizing: border-box;
+  width:230px;
+  height:276px;
+  background-color: #fff;
+  margin-bottom:15px;
+  padding:24px 0 29px 0;
+  text-align: center;
+}
+#main .birth_create .pro_right li a{
+  color:#333;
+}
+#main .birth_create .pro_right li a:hover{
+ transition: .3s;
+  color: #d93732;
+}
+/* 上边距20px */
+#main .mt_20px{
+	margin-top: 20px;
+}
+/* 下边距15px */
+#main .mb_15px{
+	margin-bottom: 15px;
+}
+#main .birth_create .pro_right li p{
+  line-height: 1;
+}
+
+/* 热评部分 */
+#main #evaluate li{
+  box-sizing: border-box;
+  width:290px;
+  height:367px;
+  background-color: #fff;
+  text-align: center;
+  padding:15px 15px 25px;
+}
+#main #evaluate li p{
+  text-align: left;
+  line-height: 1;
+}
+/* 热评中的标题 */
+#main #evaluate li .title{
+  min-height:63px;
+  line-height: 1.5;
+}
+/* 鼠标悬停字体变色 */
+#main #evaluate li .title a:hover{
+  transition: .3s;
+  color: #d93732;
+ }
+#main #evaluate li .title+p{
+  font-size: 12px;
+  color:#9e9e9e;
+}
+#main #evaluate li p:last-child{
+  margin-top: 10px;
+}
+/* 热评中的图片 鼠标悬停放大效果 */
+#main #evaluate li div{
+  width:260px;
+  height: 188px;
+  overflow: hidden;
+}
+#main #evaluate img{
+  transition: .3s linear;
+}
+#main #evaluate img:hover{
+  transform: scale(1.2);
+}
+/* 字体颜色为#333 */
+#main .color333{
+  color:#333;
+}

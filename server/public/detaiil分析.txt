@@ -1,0 +1,5 @@
+product:{pid,title,subtitle,price}
+
+pics:[ {pid, sm, md, lg} ]
+
+spec:[ {pid , sp} ];
