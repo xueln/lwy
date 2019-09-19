@@ -166,11 +166,14 @@ header .car:hover #car_icon{
 /* user cart图标鼠标悬停 显示下拉框 */
 .user:hover .user_box{
 	z-index:9;
+	opacity: 1;
 }
 .car:hover .cart_box{
 	z-index:9;
+	opacity: 1;
 }
 header .box{
+	opacity: 0;
 	z-index: -1;
 	position: absolute;
 	top:48px;

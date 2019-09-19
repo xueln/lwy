@@ -144,4 +144,26 @@
 #page_detail .goods_info .goods_attr .buy a:last-child i.bgImgClass{
     background-position: -205px -32px;
 }
-
+/* 选择颜色后的样式 */
+#page_detail .goods_info  .colorSelected{
+    border:2px solid #d93732 !important;
+}
+/* 详情中的导航 */
+#page_detail .details_nav{
+    padding:20px 0;
+    border:1px solid #f5f5f5;
+}
+#page_detail .details_nav ul{
+    justify-content: center;
+}
+#page_detail .details_nav ul li{
+    font-size: 18px;
+    color:#666;
+    margin:0 20px;
+}
+#page_detail .details_nav ul li a:hover{
+    color:#d93732;
+}
+#page_detail .details_nav ul li a.active{
+    color:#d93732;
+}
