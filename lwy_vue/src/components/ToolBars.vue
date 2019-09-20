@@ -1,7 +1,7 @@
 <template>
     <div class="toolbars" v-show="scrollTop>500">
         <a href="javascript:;" class="block"><i class="block"></i></a>
-        <a href="#" class="block"><i class="block"></i></a>
+        <a @click="toTop" href="javascript:;" class="block"><i class="block"></i></a>
     </div>
 </template>
 <script>
@@ -19,6 +19,30 @@ export default {
         this.scrollTop=document.body.scrollTop || document.documentElement.scrollTop;
         this.$emit("scroll",this.scrollTop);
         //  console.log(this.scrollTop);    
+       }
+   },
+   methods:{
+       toTop(e){
+        e.preventDefault();
+        
+        // 总距离
+        var dist=this.scrollTop;
+        // 总步数
+        var steps=50;
+        // 总时间   总时间/总步数不要小于10ms 这才是定时器最优的状态
+        var dur=500;
+        // 每步走多长
+        var step=dist/steps;
+        // 每步走多长时间
+        var interval=dur/steps;
+        var timer=setInterval(()=>{
+            window.scrollBy(0,-step);
+            steps--;
+            if(steps==0){
+                clearInterval(timer);
+                console.log("停止");
+            }
+        })
        }
    }
 }

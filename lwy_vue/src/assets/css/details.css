@@ -152,6 +152,10 @@
 #page_detail .details_nav{
     padding:20px 0;
     border:1px solid #f5f5f5;
+    width:100%;
+    background-color: #fff;
+    top:-45px;
+    transition: all .3s linear;
 }
 #page_detail .details_nav ul{
     justify-content: center;
@@ -166,4 +170,52 @@
 }
 #page_detail .details_nav ul li a.active{
     color:#d93732;
+}
+/* 固定在顶部 */
+#page_detail .fixed{
+    position: fixed;
+    top:0;
+    z-index:3;
+}
+/* 需要帮助？ */
+#page_detail .details_nav div:first-child{
+    position: relative;
+}
+#page_detail .service{
+    width:200px;
+    height:24px;
+    position: absolute;
+    right:0;
+    top:0;
+}
+/* QQ在线交谈 圆角 过渡样式 */
+#page_detail .service a{
+	display:inline-block;
+	width:86px;
+	height:18px;
+	border:2px solid #979795;
+	text-align:center;
+	line-height:18px;
+	border-radius:22px;
+	font-size:12px;
+	color:#666;
+	transition:.3s;
+}
+#page_detail .service a:hover{
+	color:#e52e2d;
+	border-color:#e52e2d;
+}
+#page_detail #detailContent div:first-child{
+    padding:80px;
+    box-sizing: border-box;
+}
+#page_detail #detail_params{
+    width:100%;
+    text-align: center;
+    font-size: 24px;
+    color:gray;
+}
+#page_detail .detailP_details{
+    height:217px;
+    background-color:#fff;
 }

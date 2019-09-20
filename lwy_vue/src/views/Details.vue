@@ -48,14 +48,14 @@
                     </div>
                 </div>
             </div>
-            <div id="detailNav" class="details_nav">
+            <div id="detailNav" :class="scrollTop>navOffsetTop && navOffsetTop!=0?'fixed':''" class="details_nav">
                 <div class="w-1200">
                     <ul class="w-1200 d-flex" @click="changeRed">
                         <li>
-                           <a href="javascript:;" :class="textRed[0]" data-i="0">礼物详情</a> 
+                           <a href="javascript:;" @click="toOwn($event,'detailContent')" :class="textRed[0]" data-i="0">礼物详情</a> 
                         </li>
                         <li>
-                            <a href="javascript:;" :class="textRed[1]"  data-i="1">规格参数</a> 
+                            <a @click="toOwn($event,'detail_params')" href="javascript:;" :class="textRed[1]"  data-i="1">规格参数</a> 
                         </li>
                         <li>
                             <a href="javascript:;" :class="textRed[2]"  data-i="2">视频晒单(5)</a> 
@@ -64,14 +64,23 @@
                             <a href="javascript:;" :class="textRed[3]"  data-i="3">咨询(5)</a>
                         </li>
                     </ul>
+                    <div class="service" v-show="scrollTop>navOffsetTop|| navOffsetTop==0">
+                        <span>需要帮助？</span>
+                        <router-link to="">QQ在线交谈</router-link>
+                    </div>
                 </div>
             </div>
-            <div id="detailContent">
-                <img v-for="(item,index) of detailsImages" :key="index" :src="item" alt="">
+            <div class="bg_f5f5f5" style="height:20px"></div>
+            <div class="bg_f5f5f5" id="detailContent">
+                <div class=" w1200 bg_fff">
+                    <img v-for="(item,index) of detailsImages" :key="index" :src="item" alt="">
+                </div>
+                <div id="detail_params">规格参数</div>
+                <div class="detailP_details w1200"></div>
+                <div id="detailParams"></div>
+                <div id="detailComment"></div>
+                <div id="detailRequest"></div>
             </div>
-            <div id="detailParams"></div>
-            <div id="detailComment"></div>
-            <div id="detailRequest"></div>
             <!-- 子组件将scrollTop传给父组件 -->
             <tool-bars @scroll="scroll"></tool-bars>   
         </div>
@@ -99,21 +108,69 @@ export default {
             // 控制详情的导航部分文字变红
             textRed:[{active:false},{active:false},{active:false},{active:false}],
             // 礼物详情的模拟数据
-            detailsImages:["../../../../public/images/detail/1.jpg","../../../public/images/detail/2.jpg","../../../public/images/detail/3.jpg","../../../public/images/detail/4.jpg","../../../public/images/detail/5.jpg","../../../public/images/detail/5.jpg","../../../public/images/detail/6.jpg"],
-            navOffsetTop:0
+            detailsImages:["http://127.0.0.1:5050/img/detail/1.jpg","http://127.0.0.1:5050/img/detail/2.jpg","http://127.0.0.1:5050/img/detail/3.jpg","http://127.0.0.1:5050/img/detail/4.jpg","http://127.0.0.1:5050/img/detail/5.jpg","http://127.0.0.1:5050/img/detail/5.jpg","http://127.0.0.1:5050/img/detail/6.jpg"],
+            navOffsetTop:0,
+            scrollTop:0
         }
     },
     props:{pid:{default:0}},
     created(){
         console.log(this.pid);
         this.loadMore();    
-        // this.navOffsetTop=this.getElementToPageTop(document.getElementById('detailNav'));
-        // console.log(this.navOffsetTop);
+        
+    },
+    mounted(){
+        var top=this.navOffsetTop=document.getElementById("detailNav").offsetTop;
+        this.navOffsetTop=top;
+        // console.log('距离顶部距离'+this.navOffsetTop);
     },
     methods:{
-        
+        toOwn(e,bid){
+            var elem=document.getElementById(bid);
+            var dist=this.scrollTop-elem.offsetTop;
+            if(e.target.dataset.i==0){
+                if(dist>0){
+                    this.scrollToDetail(dist);
+                }
+            }else{
+                if(e.target.dataset.i==1){
+                        dist+=36;
+                        this.scrollToDetail(dist);
+                   
+                    
+                }
+            }
+
+            // 滚到对应的礼物详情
+            
+            // var dist=this.scrollTop-elem.offsetTop;
+            // console.log('dist'+dist);
+        },
+        scrollToDetail(dist){
+            // 总距离
+            // var elem=document.getElementById(bid);
+            // var dist=this.scrollTop-elem.offsetTop;
+            // console.log('dist'+dist);
+            var dist=dist;
+            // 总步数
+            var steps=50;
+            // 总时间
+            var dura=500;
+            // 每步走多长
+            var step= dist/steps;
+            // 每步走多长时间
+            var interval=dura/steps;
+            var timer=setInterval(()=>{
+                window.scrollBy(0,-step);
+                steps--;
+                if(steps==0){
+                    clearInterval(timer);
+                }
+            });
+        },
         scroll(t){
-          console.log(t);  
+          this.scrollTop=t; 
+          console.log(this.scrollTop); 
         },
         changeRed(e){
             if(e.target.nodeName=="A"){
