@@ -18,13 +18,13 @@ export default {
         // 获取页面上方滚动超出的距离(有兼容性问题)
         this.scrollTop=document.body.scrollTop || document.documentElement.scrollTop;
         this.$emit("scroll",this.scrollTop);
+        
         //  console.log(this.scrollTop);    
        }
    },
    methods:{
        toTop(e){
         e.preventDefault();
-        
         // 总距离
         var dist=this.scrollTop;
         // 总步数

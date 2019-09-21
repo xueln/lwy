@@ -205,6 +205,9 @@
 	color:#e52e2d;
 	border-color:#e52e2d;
 }
+#page_detail #detailContent{
+    padding-bottom:50px;
+}
 #page_detail #detailContent div:first-child{
     padding:80px;
     box-sizing: border-box;
@@ -214,8 +217,75 @@
     text-align: center;
     font-size: 24px;
     color:gray;
+    margin:20px 0;
 }
 #page_detail .detailP_details{
     height:217px;
+    background-color:#fff;
+}
+/* 猜你喜欢 */
+#page_detail #guess_title{
+    text-align:center;
+    font-size: 24px;
+    color:gray;
+    margin-top:20px;
+}
+#page_detail .guessULike{
+    margin-top:40px;
+    overflow: hidden;
+    display:flex;
+}
+#page_detail .guessULike ul{
+    display: flex;
+    /* justify-content: space-between; */
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    /* 项目不缩小 */
+    flex-shrink:0;  
+    /* margin-left:-243px; */ 
+}
+#page_detail .guessULike ul:first-child{
+    margin-right:15px;
+}
+/* 设置轮播到最后一张的时候 重置回第一张去掉transition瞬间回到首个商品 */
+#page_detail .guessULike ul.transition{
+    transition: margin-left .3s linear;
+}
+#page_detail .guessULike ul li{
+    height:257px;
+    box-sizing: border-box;
+    padding:30px 39px;
+    background-color: #fff;
+}
+#page_detail .guessULike ul li:not(:first-child){
+    margin-left:15px;
+}
+#page_detail .guessULike ul li img{
+    width:150px;
+    height:150px;
+}
+#page_detail .guessULike ul li p{
+    text-align: center;
+    margin-top:5px;
+}
+/* 轮播指示器 */
+#page_detail .directors{
+    width:100%;
+    text-align:center;
+    margin-top:30px;
+}
+#page_detail .directors a{
+    display:inline-block;
+    width:8px;
+    height:8px;
+    border:3px solid #f5f5f5;
+    border-radius: 50%;
+    margin:0 15px;
+    background-color: gray;
+    transition: none;
+}
+/* 边框变红 */
+#page_detail .directors .borderRed,#page_detail .directors a:hover{
+    border-color:#d93732;
     background-color:#fff;
 }
