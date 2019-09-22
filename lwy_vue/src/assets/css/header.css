@@ -289,7 +289,7 @@ header .cart_box .banlance a:hover{
 /* 送礼导航下拉菜单 */
 header .pro_nav li:first-child:hover .nav_menu{
 	z-index: 8;
-	/* opacity: 1; */
+	opacity: 1;
 }
 header .nav_menu{
 	position: absolute;
@@ -302,7 +302,7 @@ header .nav_menu{
 	border-bottom:2px solid #ededed;
 	z-index: -1;
 	transition: .3s linear;
-	
+	opacity: 0;
 }
 header .nav_menu .menu_center{
 	box-sizing: border-box;

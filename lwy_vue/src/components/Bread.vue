@@ -2,8 +2,8 @@
   <div class="currentloc bg_f5f5f5">
     <p class="w1200">
         <span>
-            <router-link to="/Index" class="changeRed">首页</router-link>
-            &nbsp; / &nbsp; {{breadName}}
+            <router-link to="/Index" class="changeRed">首页</router-link> 
+            <router-link to="" v-for="(item,index) of breadName" :key="index">&nbsp; / &nbsp;{{item}}</router-link> 
         </span>
         <span>
             服务热线：0755-86380505 (8:00－24:00)
@@ -19,7 +19,10 @@ export default {
 
     }
   },
-  props:{breadName:{default:""}}
+  props:{breadName:{type:Array}},
+  created(){
+    console.log(this.breadName);
+  }
 }
 </script>
 <style scoped>

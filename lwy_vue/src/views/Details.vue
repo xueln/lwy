@@ -2,14 +2,14 @@
     <div>
         <my-header></my-header>
         <div id="page_detail">
-            <bread breadName="BeeFo小唱机"></bread>
+            <bread :breadName="['BeeFo小唱机']"></bread>
             <div class="goods_info">
                 <div class="center w1200 d-flex">
                     <div class="images d-flex">
                         <!-- 小图 -->
-                        <ul class="d-flex">
+                        <ul class="d-flex" @mouseover="changeImg">
                             <li v-for="(item,index) of pics" :key="index" >
-                                <img :src="imgUrl+item.sm" alt=""  :class="imgClasses[index]?'borderRed':''" @mouseover="changeImg(index)">
+                                <img :src="imgUrl+item.sm" alt=""  :class="i==index?'borderRed':''" :data-i="index">
                             </li>
                         </ul>
                         <!-- 中图 -->
@@ -36,7 +36,7 @@
                                 <p>
                                   <span class="block color666">礼物颜色:</span>  
                                 </p>
-                                <router-link to="" v-for="(item,index) of pics" :key="index"  :data-ci="index" class="block option" :class="selectColors[index]==1?'colorSelected':''" v-text="item.color"></router-link>
+                                <router-link to="" v-for="(item,index) of pics" :key="index"  :data-ci="index" class="block option" :class="colorIndex==index?'colorSelected':''" v-text="item.color"></router-link>
                             </div>
                         </div>
                         <div class="buy">
@@ -50,18 +50,18 @@
             </div>
             <div id="detailNav" :class="scrollTop>navOffsetTop && navOffsetTop!=0?'fixed':''" class="details_nav">
                 <div class="w1200">
-                    <ul class="w1200 d-flex" @click="changeRed">
+                    <ul class="w1200 d-flex"  @click="toOwn">
                         <li>
-                           <a href="javascript:;" @click="toOwn($event,'detailContent')" :class="textRed[0]" data-i="0">礼物详情</a> 
+                           <a href="javascript:;" data-id="detailContent" :class="detailNavIndex==0?'active':''" data-i="0">礼物详情</a> 
                         </li>
                         <li>
-                            <a @click="toOwn($event,'detail_params')" href="javascript:;" :class="textRed[1]"  data-i="1">规格参数</a> 
+                            <a data-id="detail_params" href="javascript:;" :class="detailNavIndex==1?'active':''"  data-i="1">规格参数</a> 
                         </li>
                         <li>
-                            <a href="javascript:;" :class="textRed[2]"  data-i="2">视频晒单(5)</a> 
+                            <a href="javascript:;" :class="detailNavIndex==2?'active':''"  data-i="2">视频晒单(5)</a> 
                         </li>
                         <li>
-                            <a href="javascript:;" :class="textRed[3]"  data-i="3">咨询(5)</a>
+                            <a href="javascript:;" :class="detailNavIndex==3?'active':''"  data-i="3">咨询(5)</a>
                         </li>
                     </ul>
                     <div class="service" v-show="scrollTop>navOffsetTop|| navOffsetTop==0">
@@ -123,14 +123,12 @@ export default {
             pics:[{md:'img/detail/md1.jpg',sm:'img/detail/sm1.jpg',lg:'img/detail/lg1.jpg'}],
             specs:[] ,
             imgUrl:"http://127.0.0.1:5050/",
-            // 控制每张小图片鼠标滑过的样式
-            imgClasses:[],
             // 判断是选中的哪一张小图片
             i:0,
             // 判断选中的颜色
-            selectColors:[],
-            // 控制详情的导航部分文字变红
-            textRed:[{active:false},{active:false},{active:false},{active:false}],
+            colorIndex:-1,
+            // 详情的导航部分 判断点击的是哪个部分
+            detailNavIndex:0,
             // 礼物详情的模拟数据
             detailsImages:["http://127.0.0.1:5050/img/detail/1.jpg","http://127.0.0.1:5050/img/detail/2.jpg","http://127.0.0.1:5050/img/detail/3.jpg","http://127.0.0.1:5050/img/detail/4.jpg","http://127.0.0.1:5050/img/detail/5.jpg","http://127.0.0.1:5050/img/detail/5.jpg","http://127.0.0.1:5050/img/detail/6.jpg"],
             navOffsetTop:0,
@@ -146,7 +144,7 @@ export default {
     },
     props:{pid:{default:0}},
     created(){
-        console.log(this.pid);
+        // console.log(this.pid);
         this.loadMore();    
         this.guessScroll();
     },
@@ -162,13 +160,13 @@ export default {
         startScroll(e){
              if(e.target.nodeName=="A"){
                  this. guessScroll();
-                 console.log("鼠标离开"+this.times);
+                //  console.log("鼠标离开"+this.times);
              }
         },
         // 鼠标滑过指示器 边框变红 轮播图滑动到响应的页数
         scrollDire(e){
             if(e.target.nodeName=="A"){
-                console.log(e.target.dataset.i);
+                // console.log(e.target.dataset.i);
                 var i=e.target.dataset.i;
                 // 变为选中的样式
                 this.times=i*1;
@@ -178,7 +176,7 @@ export default {
         // 猜你喜欢的自动轮播
         guessScroll(){
             this.timer=setInterval(()=>{
-                console.log("times"+this.times);
+                // console.log("times"+this.times);
                 this.times+=1;
                 this.guessClass.transition=true;
                 if(this.times>(this.guessList.length%5+1)){
@@ -191,23 +189,29 @@ export default {
             },2000);
         },
         // 滚动到对应的内容
-        toOwn(e,bid){
-            var elem=document.getElementById(bid);
-            var dist=this.scrollTop-elem.offsetTop;
-            if(e.target.dataset.i==0){
-                if(dist>0){
-                    this.scrollToDetail(dist);
-                }
-            }else{
-                if(e.target.dataset.i==1){
-                    if(this.scrollTop>this.navOffsetTop){
-                        dist+=66;
-                    }else{
-                        dist+=66*2;
-                        
-                    }      
-                    console.log(this.scrollTop+"elem.offsetTop:"+elem.offsetTop+"  滚动的距离"+dist); 
-                        this.scrollToDetail(dist);           
+        toOwn(e){
+            if(e.target.nodeName=="A"){
+                var thisA=e.target;
+                // 点击文字变红
+                this.detailNavIndex=e.target.dataset.i;
+                // 滚动到对应的内容
+                var elem=document.getElementById(thisA.dataset.id);
+                var dist=this.scrollTop-elem.offsetTop;
+                if(thisA.dataset.i==0){
+                    if(dist>0){
+                        this.scrollToDetail(dist);
+                    }
+                }else{
+                    if(thisA.dataset.i==1){
+                        if(this.scrollTop>this.navOffsetTop){
+                            dist+=66;
+                        }else{
+                            dist+=66*2;
+                            
+                        }      
+                        console.log(this.scrollTop+"elem.offsetTop:"+elem.offsetTop+"  滚动的距离"+dist); 
+                            this.scrollToDetail(dist);           
+                    }
                 }
             }
         },
@@ -232,20 +236,18 @@ export default {
         scroll(t){
             // 从子组件中传过来的值
           this.scrollTop=t; 
-          console.log(this.scrollTop); 
-          console.log('距离顶部距离'+this.navOffsetTop);
-        },
-        changeRed(e){
-            if(e.target.nodeName=="A"){
-                var id=e.target.dataset.i;
-               for(var t=0;t<this.textRed.length;t++){
-                   if(t==id){
-                       this.textRed[t].active=true;
-                   }else{
-                       this.textRed[t].active=false;
-                   }
-               }
+          console.log("scrollTop"+this.scrollTop); 
+        //   console.log('距离顶部距离'+this.navOffsetTop);
+            // 如果页面滚动到礼物详情内容区域 相应的导航字变红
+            if(this.scrollTop>=837 && this.scrollTop<9408){
+            this.detailNavIndex=0;  
+            }else if(this.scrollTop>=9408 && this.scrollTop<9676){
+                // 如果页面滚动到规格参数内容区域 相应的导航字变红
+                this.detailNavIndex=1;
+            }else{
+                this.detailNavIndex=3;
             }
+            
         },
         loadMore(){
             (async ()=>{
@@ -262,14 +264,6 @@ export default {
                 this.$set(this.product,p,obj.product[p]);
                 }
                 this.pics=obj.pics;
-                for(var i=0;i<this.pics.length;i++){
-                    if(i==0){
-                        this.$set(this.imgClasses,i,1);
-                    }else{
-                        this.$set(this.imgClasses,i,0);
-                    }
-                    this.$set(this.selectColors,i,0);
-                }
                 this.specs=obj.specs;
                 // console.log(this.product,this.pics,this.specs);
                 console.log(this.pics);
@@ -278,26 +272,19 @@ export default {
         //选择颜色事件
         changeColor(e){
             if(e.target.nodeName=="A"){
-                for (var c=0;c<this.selectColors.length;c++) {
-                    this.$set(this.selectColors,c,0);
-                }
-                var ci=e.target.dataset.ci;
-                this.$set(this.selectColors,ci,1);
-                console.log(this.selectColors);
+                this.colorIndex=e.target.dataset.ci;
                 // 对应的选中相应颜色的小图片与大图片
-                this.changeImg(ci);
+                this.i=this.colorIndex;
             }
         },
         // 鼠标移到哪个小图片 哪个小图片就加上红色边框 并且切换对应的大图片
-        changeImg(i){
-            // 其他小图片去掉红色边框
-            for(var j=0;j<this.imgClasses.length;j++){
-                this.imgClasses[j]=0;
+        changeImg(e){
+            if(e.target.nodeName=="IMG"){
+                var i=e.target.dataset.i;
+                //当前选中的是i图片
+                 this.i=i; 
             }
-            // 当前的小图片加边框
-            this.imgClasses[i]=1;
-            // 切换大图片
-            this.i=i; 
+            
 
         },
         bgImgHandle(){

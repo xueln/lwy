@@ -4,6 +4,8 @@ import Index from './views/Index.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import Details from './views/Details.vue'
+import Products from './views/Products.vue'
+import NotFound from './views/NotFound.vue'
 // import Carousel from './components/index/Carousel.vue'
 Vue.use(Router)
 
@@ -24,7 +26,13 @@ export default new Router({
     {path: '/Details/:pid',
      component: Details,
      props:true
+    },
+    {path: '/Products/:kw',
+     component: Products,
+     props:true
+    },
+    {path: '/*',
+     component: NotFound
     }
-  
   ]
 })

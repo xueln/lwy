@@ -1,0 +1,75 @@
+.productPage .where .center .f{
+    width:100%;
+    padding:20px 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+}
+.productPage .where .center .f .left .tc{
+    width:85px;
+    height:28px;
+    text-align: center;
+    line-height: 28px;
+}
+.productPage .where .center .f .left ul{
+    width:1020px;
+    display:flex;
+    flex-wrap: wrap;
+    /* align-items: center; */
+    height:28px;
+    /* 展开56 */
+    overflow: hidden;
+    transition: .3s linear;
+}
+.productPage .where .center .f .left ul li{
+    height:26px;
+    padding:0 6px;
+    margin:0 10px;
+    text-align: center;
+    line-height:26px;
+}
+.productPage .where .center .f .more{
+    width:80px;
+    height:28px;
+    text-align: center;
+    line-height:28px;
+    cursor: pointer;
+}
+.productPage .where .center .f .more i{
+    display: inline-block;
+    width:12px;
+    height:6px;
+    /* 151 */
+    background: url(../../../public/images/bgr.png) no-repeat -235px -165px;
+    margin-top:-3px;
+}
+.productPage .where .center .f .more i.toggleBgImg{
+    background-position:  -235px -151px;
+}
+.productPage .where .center>div:not(:first-child){
+    border-top:1px solid #ededed;
+}
+/* 点击哪个条件 哪个条件变红 */
+.productPage .where .center .textRed{
+    color:#c1413d;
+}
+/* 排序列表及商品列表 */
+.productPage .where_title{
+    margin-top:30px;
+    padding:20px 0;
+    justify-content: space-between;
+}
+.productPage .where_title .left a{
+    padding:0 10px;
+}
+.productPage .where_title .left span{
+    display: inline-block;
+    width:14px;
+    height:21px;
+}
+.productPage .where_title .right input{
+    width:14px;
+    height:14px;
+    background: #fff;
+    border:1px solid #c3c3c3;
+}

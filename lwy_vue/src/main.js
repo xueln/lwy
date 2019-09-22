@@ -6,6 +6,14 @@ import MyHeader from './components/MyHeader.vue'
 import MyFooter from './components/MyFooter.vue'
 import ToolBars from './components/ToolBars.vue'
 import Bread from './components/Bread.vue'
+// $router.push 解决重复路由问题
+import Router from 'vue-router'
+ 
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
 // vue-awesome-swiper
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'

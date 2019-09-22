@@ -2,7 +2,7 @@
     <div>
         <header>
             <div class="center">
-                <a href="javascript:;" class="block" id="logo_icon"></a>
+                <router-link to="/" class="block" id="logo_icon"></router-link>
                 <div id="classify">
                         <a href="javascript:;">礼物分类
                             <i href="javascript:;" id="classify_icon" class="block"></i>
@@ -81,12 +81,12 @@
                     </li>
                 </ul>
                 <div class="search">
-                    <input type="text">
-                    <a href="javascript:;" id="search_icon" class="block"></a>
+                    <input type="text" v-model="kw" @keydown.13="search">
+                    <a @click="search" href="javascript:;" id="search_icon" class="block"></a>
                 </div>
                 <router-link to="/Login" class="block user" >
                     <i id="user_icon" class="block"></i>
-                    <div class="box user_box" :class="userBox">
+                    <div class="box user_box">
                         <i class="triangle"></i>
                         <ul>
                             <li>
@@ -102,7 +102,7 @@
                 <router-link to="" class="car block">
                     <i id="car_icon" class="block"></i>
                     <span class="cart_count">2</span>
-                    <div  class="box cart_box" :class="cartBox">
+                    <div  class="box cart_box">
                         <i class="triangle cart_tri"></i>
                         <p v-show="false" class="cart_empty">购物车中还没有商品，赶紧选购吧！</p>
                         <div v-show="true">
@@ -150,23 +150,21 @@
 export default {
     data(){
         return {
-            userBox:{
-                boxShow:false
-            },
-            cartBox:{
-                boxShow:false
-            }
+           kw:""
         }
     },
     methods:{
-        userBox_handle(){
-            // this.userBox.boxShow=!this.userBox.boxShow;
-            // console.log(this.userBox.boxShow);
-            // console.log(111111);
-        },
-        cartBox_handle(){
-            // this.cartBox.boxShow=!this.cartBox.boxShow;
-            // console.log(222222);
+        search(){
+            this.$router.push("/Products/"+this.kw);
+            this.$emit("kwHandle",this.kw);
+        }
+    },
+    created(){
+        this.kw=this.$route.params.kw;
+    },
+    watch:{
+        kw(){
+            
         }
     }
 }
