@@ -163,8 +163,8 @@ export default {
         this.kw=this.$route.params.kw;
     },
     watch:{
-        kw(){
-            
+        $route(){
+           this.kw=this.$route.params.kw; 
         }
     }
 }

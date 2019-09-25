@@ -67,9 +67,32 @@
     width:14px;
     height:21px;
 }
-.productPage .where_title .right input{
+/* 勾选显示定制商品 */
+.productPage .where_title .right a{
     width:14px;
     height:14px;
     background: #fff;
     border:1px solid #c3c3c3;
+    vertical-align: middle;
+    margin-right: 5px;
+    text-align: center;
+}
+/* 商品列表 */
+.productPage .proList{
+    display: flex;
+    flex-wrap: wrap;
+}
+.productPage .proList li{
+    width:225px;
+    height:327px;
+    padding:30px;
+    margin-top:20px;
+    background-color: #fff;
+}
+.productPage .proList li:not(:nth-child(4n-3)){
+    margin-left:20px;
+}
+.productPage .proList li img{
+    width:225px;
+    height:225px;
 }
