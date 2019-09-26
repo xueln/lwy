@@ -33,3 +33,4 @@ app.use(session({
 app.use('/user',userRouter);
 app.use('/index',indexRouter);
 app.use('/detail',detailRouter);
+app.use('/product',ProductRouter);
