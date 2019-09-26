@@ -3,7 +3,7 @@ var express=require('express');
 var pool=require('../pool.js');
 // 创建路由
 var ProductRouter=express.Router();
-ProductRouter.get('/',(req,res)=>{
+ProductRouter.get('/pros',(req,res)=>{
   var output={
     count:0,
     pageSize:7,
@@ -12,13 +12,13 @@ ProductRouter.get('/',(req,res)=>{
     data:[]
   };
   // 查询图片
-  var sql="select pid,family_id,title,price,isDiy from lwy_product limit ?,?";
-  pool.query(sql,[output.pageSize*output.pno],(err,result)=>{
+  var sql="select pid,family_id,title,price,isDiy,md from lwy_product limit ?,?";
+  pool.query(sql,[output.pageSize*output.pno,output.pageSize],(err,result)=>{
     if(err) throw err;
-    if(result.length>0){
-      console.log(result);
-      res.send(result);
-    }
+    output.data=result;
+    output.count=result.length;
+    output.pageCount=Math.ceil(output.count/output.pageSize);
+    console.log(output); 
   });
 });
 // 导出userRouter对象

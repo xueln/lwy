@@ -1,4 +1,5 @@
 <template>
+import { async } from 'q';
     <div>
         <my-header></my-header>
         <div class="productPage bg_f5f5f5">
@@ -128,7 +129,16 @@ export default {
     created(){
     },
     methods:{
-        
+       loadMore(pno=0){
+           (async ()=>{
+               var res=await this.axios.get('product/pros',{
+                   params:{
+                       pno  //要查询第几页
+                   }
+               });
+               console.log(res.data);
+           })();
+       } 
     },
     watch:{
         // 只要地址栏参数发生改变

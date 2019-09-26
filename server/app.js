@@ -6,6 +6,7 @@ const session=require('express-session');
 var userRouter=require('./routes/userRouter.js');
 var indexRouter=require('./routes/indexRouter.js');
 var detailRouter=require('./routes/detailRouter.js');
+var ProductRouter=require('./routes/product.js');
 // 引入body-parser中间件
 var bodyParser=require('body-parser');
 // 创建web服务器
