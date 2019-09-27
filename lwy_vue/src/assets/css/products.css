@@ -1,22 +1,9 @@
-/* .productPage .where .center .f{
-    width:100%;
-    padding:20px 0;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
+.productPage{
+    padding-bottom:50px;
 }
-.productPage .where .center .f .left .tc{
-    width:85px;
-    height:28px;
-    text-align: center;
-    line-height: 28px;
+.productPage .borderTop{
+    border-top:1px solid #ededed;
 }
-.productPage .where .center .f .left ul{
-    width:1020px;
-    display:flex;
-    flex-wrap: wrap;
-    /* align-items: center; */
-
 /* 排序列表及商品列表 */
 .productPage .where_title{
     margin-top:30px;
@@ -30,6 +17,10 @@
     display: inline-block;
     width:14px;
     height:21px;
+}
+/* 排序选择后 文字变红 */
+.productPage .orderText{
+    color:#d93732;
 }
 /* 勾选显示定制商品 */
 .productPage .where_title .right a{
@@ -53,10 +44,81 @@
     margin-top:20px;
     background-color: #fff;
 }
+.productPage .proList li:hover{
+    box-shadow: 0px 0px 10px 1px #ccc;
+}
 .productPage .proList li:not(:nth-child(4n-3)){
     margin-left:20px;
 }
 .productPage .proList li img{
     width:225px;
     height:225px;
+}
+.productPage .proList p{
+    height:21px;
+    line-height: 21px;
+}
+.productPage .proList p:last-child a{
+    display: inline-block;
+    height: 18px;
+    line-height: 18px;
+    padding:0 3px;
+   border:1px solid #6e6e6e;
+   border-radius:3px;
+}
+.productPage .proList p:last-child a:hover{
+    border-color:#e85c5d;
+    color:#e85c5d;
+	transition: .2s linear;
+}
+.productPage .proList p:last-child a.active{
+    background-color: #e85c5d;
+    transition: .1s;
+    color:#fff;
+    border-color: #e85c5d;
+}
+.productPage .proList p:last-child span{
+    float:right;
+}
+/* 页码 */
+.productPage .pagers{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:40px 0;
+}
+.productPage .pagers a{
+    margin:0 15px;
+    font-size:18px;
+    color:#a9a9a9;
+}
+.productPage .pagers .prev,.productPage .pagers .next{
+    width:9px;
+    height:16px;
+    background: url(../../../public/images/bgr.png) no-repeat -182px 0px;;
+}
+.productPage .pagers .prevHover:hover{
+    background-position-y: -16px;
+}
+.productPage .pagers .next{
+    background-position: -192px 0px;
+}
+.productPage .pagers .nextHover:hover{
+    background-position-y: -16px;
+}
+.productPage .pagers .pager{
+    width: 34px;
+    height:34px;
+    text-align: center;
+    line-height: 34px;
+    border-radius: 50%;
+}
+.productPage .pagers .pager:hover{
+    color:#d93732;
+}
+/* .pnoActive */
+.productPage .pagers .pnoActive{
+    background-color: #a4a4a4;
+    color:#fff;
+    font-weight: bold;
 }

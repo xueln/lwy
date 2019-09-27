@@ -150,7 +150,7 @@
 export default {
     data(){
         return {
-           kw:""
+           kw:" "
         }
     },
     methods:{
@@ -160,7 +160,7 @@ export default {
         }
     },
     created(){
-        this.kw=this.$route.params.kw;
+        this.kw=this.$route.params.kw || " ";
     },
     watch:{
         $route(){

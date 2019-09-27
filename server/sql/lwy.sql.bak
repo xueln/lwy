@@ -59,7 +59,7 @@ CREATE TABLE lwy_product(
 	md VARCHAR(500)
 );
 #插入商品表信息
-INSERT INTO `lwy_product` (`pid`, `family_id`, `title`, `subtitle`, `price`, `saleNum`, `spec`, `details`, `shelf_time`) 
+INSERT INTO `lwy_product` (`pid`, `family_id`, `title`, `subtitle`, `price`, `saleNum`, `spec`, `details`, `shelf_time`,`md`) 
 VALUES 
 (1, '10', 'BeeFo小唱机', '前卫唱机设计，小巧优雅，方正的调性，尽显品味；小体积也有好音乐，内置双3W全频喇叭，爆发每个音符的能量，全方位诠释立体音，实力演绎千百种曲风，尽享HiFi音质。多种功能于一身小唱机，唱响你的生活~', '399.00', '0', '直接购买', NULL, NULL,'img/detail/md1.jpg'), 
 (4, '10', 'BeeFo小唱机', '前卫唱机设计，小巧优雅，方正的调性，尽显品味；小体积也有好音乐，内置双3W全频喇叭，爆发每个音符的能量，全方位诠释立体音，实力演绎千百种曲风，尽享HiFi音质。多种功能于一身小唱机，唱响你的生活~', '409.00', '0', '个性定制', NULL, NULL,'img/detail/md_diy1.jpg'),

@@ -5,8 +5,8 @@ var pool=require('../pool.js');
 var ProductRouter=express.Router();
 ProductRouter.get('/pros',(req,res)=>{
   var output={
-    count:0,
-    pageSize:7,
+    count:7,
+    pageSize:2,
     pageCount:0,
     pno:req.query.pno||0,
     data:[]
@@ -16,9 +16,10 @@ ProductRouter.get('/pros',(req,res)=>{
   pool.query(sql,[output.pageSize*output.pno,output.pageSize],(err,result)=>{
     if(err) throw err;
     output.data=result;
-    output.count=result.length;
+    // output.count=result.length;
     output.pageCount=Math.ceil(output.count/output.pageSize);
     console.log(output); 
+    res.send(output);
   });
 });
 // 导出userRouter对象
