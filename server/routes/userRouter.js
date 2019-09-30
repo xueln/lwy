@@ -7,16 +7,28 @@ var userRouter=express.Router();
 userRouter.post('/v1/reg',(req,res)=>{
     var obj=req.body;
     console.log(obj);
-    var sql='insert into lwy_user(iphone,upwd) values(?,?)';
-    pool.query(sql,[obj.iphone,obj.upwd],function(err,result){
-        if(err){
-            throw err;
-        }
-        if(result.affectedRows>0){
-            res.send({code:200,msg:'reg succed'});  
-        }else{
-            res.send({code:401,msg:'reg fail'});  
-        }
+    // 用户编号自增
+    var userNum='US000000000';
+    // 查询用户总数
+    pool.query('SELECT COUNT(uid) FROM lwy_user',(err,result)=>{
+        if(err) throw err;
+        var unum=JSON.parse(JSON.stringify(result))[0]['COUNT(uid)']+1;
+        console.log(unum);
+        // 拼接
+        userNum=userNum.slice(0,-unum.toString().length);
+        userNum+=unum;
+        console.log(userNum);
+        var sql='insert into lwy_user(iphone,upwd,unum) values(?,?,?)';
+        pool.query(sql,[obj.iphone,obj.upwd,userNum],function(err,result){
+            if(err){
+                throw err;
+            }
+            if(result.affectedRows>0){
+                res.send({code:200,msg:'reg succed',data:userNum});  
+            }else{
+                res.send({code:401,msg:'reg fail'});  
+            }
+        });
     });
 });
 // 查询用户
@@ -36,11 +48,11 @@ userRouter.post('/getUser',(req,res)=>{
         });
     }else{
         //登录接口
-        sql="select uid from lwy_user where iphone=? and upwd=?";
+        sql="select uid,unum from lwy_user where iphone=? and upwd=?";
         pool.query(sql,[obj.iphone,obj.upwd],(err,result)=>{
             if(err) throw err;
             if(result.length>0){
-                res.send({code:1,msg:"用户密码正确"});
+                res.send({code:1,msg:"用户密码正确",data:result});
                 console.log(req.session);
                 // 保存session信息
                 req.session.uid=result[0].uid;

@@ -6,6 +6,7 @@ import Register from './views/Register.vue'
 import Details from './views/Details.vue'
 import Products from './views/Products.vue'
 import NotFound from './views/NotFound.vue'
+import Cart from './views/Cart.vue'
 // import Carousel from './components/index/Carousel.vue'
 Vue.use(Router)
 
@@ -30,6 +31,9 @@ export default new Router({
     {path: '/Products/:kw',
      component: Products,
      props:true
+    },
+    {path: '/Cart',
+     component: Cart
     },
     {path: '/*',
      component: NotFound

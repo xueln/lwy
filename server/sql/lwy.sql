@@ -5,6 +5,7 @@ USE lwy;
 #用户表
 CREATE TABLE lwy_user(
   uid BIGINT PRIMARY KEY AUTO_INCREMENT,
+	unum VARCHAR(20),
   iphone VARCHAR(16) NOT NULL UNIQUE, 
   upwd VARCHAR(32) NOT NULL,
   email VARCHAR(50),
