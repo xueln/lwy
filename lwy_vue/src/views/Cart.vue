@@ -28,6 +28,16 @@
         </div>
         <!-- 面包屑 -->
         <bread :breadName="['购物车']"></bread>
+        <div class="cartList w1200 bg_fff">
+            <ul class="d-flex">
+                <li>商品信息</li>
+                <li>单价</li>
+                <li>数量</li>
+                <li>库存</li>
+                <li>小计</li>
+                <li>操作</li>
+            </ul>
+        </div>
     </div>
 </template>
 <script>
