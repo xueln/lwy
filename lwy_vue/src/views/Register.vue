@@ -114,7 +114,17 @@ export default {
                     console.log(res.data);
                     if(res.data.code==200){
                       alert("注册成功！欢迎您"+this.phone); 
-                      this.$router.push('/Index'); 
+                    //   自动登录
+                    var loginRes=await this.axios.post('user/getUser',this.QS.stringify({
+                        iphone:this.phone,
+                        upwd:this.pwd2
+                    }));
+                    if(loginRes.data.code==1){
+                        this.$router.push('/Index');
+                    }else{
+                        alert('登录失败,请稍后再试');
+                    }
+                       
                     }
                 })();
             }

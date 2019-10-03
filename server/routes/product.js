@@ -22,5 +22,5 @@ ProductRouter.get('/pros',(req,res)=>{
     res.send(output);
   });
 });
-// 导出userRouter对象
+// 导出ProductRouter对象
 module.exports=ProductRouter;

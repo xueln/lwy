@@ -7,6 +7,7 @@ var userRouter=require('./routes/userRouter.js');
 var indexRouter=require('./routes/indexRouter.js');
 var detailRouter=require('./routes/detailRouter.js');
 var ProductRouter=require('./routes/product.js');
+var cartRouter=require('./routes/cartRouter.js');
 // 引入body-parser中间件
 var bodyParser=require('body-parser');
 // 创建web服务器
@@ -35,3 +36,4 @@ app.use('/user',userRouter);
 app.use('/index',indexRouter);
 app.use('/detail',detailRouter);
 app.use('/product',ProductRouter);
+app.use('/cart',cartRouter);

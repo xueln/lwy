@@ -111,9 +111,12 @@ CREATE TABLE lwy_order_detail(
 CREATE TABLE lwy_shopping_cart(
 	cid INT,
 	user_id BIGINT,
-	FOREIGN KEY (user_id) REFERENCES lwy_user (uid),
 	product_id BIGINT,
-	FOREIGN KEY (product_id) REFERENCES lwy_product (pid),
+	pic VARCHAR(50),
+	title VARCHAR(100),
+	spec VARCHAR(100),
+	price DECIMAL(10,2),
+	is_spot BOOLEAN, #是否有库存
 	count INT          
 );
 

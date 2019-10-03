@@ -33,19 +33,77 @@
     margin-left:30px;
 }
 /* 购物车列表 */
-.cart_page .cartList ul{
+.cart_page .cartList{
+    margin-bottom:40px;
+}
+/* 标题 */
+.cart_page .cartList ul:first-child{
     width:100%;
     height:70px;
 }
-.cart_page .cartList ul li:first-child{
+.cart_page .cartList ul:first-child li:first-child{
     padding-left:50px;
     width:550px;
     height:100%;
     line-height: 70px;
 }
-.cart_page .cartList ul li:not(:first-child){
+.cart_page .cartList ul:first-child li:not(:first-child){
     width:120px;
     height:70px;
     line-height: 70px;
     text-align: center;
+}
+/* 商品 */
+.cart_page .cartList .detail li{
+    box-sizing: border-box;
+    width:100%;
+    height:128px;
+    padding:20px 0 20px 40px;
+    justify-content: center;
+    border-top:2px solid #e2e2e2;
+}
+.cart_page .cartList .detail li>div:first-child{
+    width:560px;
+}
+.cart_page .cartList .detail li>div:first-child p{
+    margin:10px 0 0 10px;
+}
+.cart_page .cartList .detail li img{
+    width:86px;
+    height:86px;
+}
+.cart_page .cartList .detail li>div:not(:first-child){
+    width:120px;
+    text-align:center;
+    line-height:86px;
+}
+.cart_page .cartList .detail li>div:nth-child(3) div{
+    width:112px;
+    height:38px;
+    border:1px solid #e2e2e2;
+    display:flex;
+    margin-top:23px;
+}
+.cart_page .cartList .detail li>div:nth-child(3) div a{
+    display:inline-block;
+    width:14px;
+    height:14px;
+    margin:12px;
+    background: url(../../../public/images/bgr.png) no-repeat -286px -17px;
+}
+.cart_page .cartList .detail li>div:nth-child(3) input{
+    width:36px;
+    height:38px;
+    text-align: center;
+    line-height: 38px;
+}
+.cart_page .cartList .detail li>div:nth-child(3) a:last-child{
+    background-position: -271px -17px;
+}
+.cart_page .cartList .detail li>div:last-child a{
+    display: block;
+    width:14px;
+    height:20px;
+    background: url(../../../public/images/bgr.png) no-repeat -256px -17px;
+    margin:33px auto 0;
 }

@@ -30,7 +30,7 @@
                             <div>
                                 <span class="block color666">选择规格:</span>
                                 <!-- 规格与浏览器中参数id值一致时 说明是选中状态 -->
-                                <router-link :to="/Details/+item.pid" v-for="(item,index) of specs" :key="index" class="block option" :class="item.pid==pid?'optionSelected':''"  v-text="item.spec"></router-link>
+                                <router-link @click.native="specClick(index)" :to="/Details/+item.pid" v-for="(item,index) of specs" :key="index" class="block option" :class="item.pid==pid?'optionSelected':''"  v-text="item.spec"></router-link>
                             </div>
                             <div class="colors" @click="changeColor">
                                 <p>
@@ -40,7 +40,7 @@
                             </div>
                         </div>
                         <div class="buy">
-                            <router-link to="" >立即购买</router-link>
+                            <router-link to="" @click.native="goCart">立即购买</router-link>
                             <a href="javascript:;" class="sc" @click="bgImgHandle">
                                 <i :class="bgImg"></i>
                             </a>
@@ -125,6 +125,8 @@ export default {
             imgUrl:"http://127.0.0.1:5050/",
             // 判断是选中的哪一张小图片
             i:0,
+            // 选中的规格
+            specIndex:0,
             // 判断选中的颜色
             colorIndex:-1,
             // 详情的导航部分 判断点击的是哪个部分
@@ -156,6 +158,53 @@ export default {
         // 控制轮播指示器 鼠标滑过边框变红的样式数组初始化
     },
     methods:{
+        // 点击立即购买 将商品添加到购物车 并跳转到购物车
+        goCart(){
+            if(this.colorIndex==-1){
+                alert("请选择规格！！！");
+                return;
+            }
+        // 判断用户是否是登录状态
+        (async ()=>{
+            var res=await this.axios.get('user/isLogin');
+            var cartProduct={
+                pid:this.product.pid,
+                pic:this.pics[this.colorIndex].sm,
+                title:this.product.title,
+                spec:this.specs[this.specIndex].spec,
+                price:this.product.price,
+                is_spot:this.pics[this.colorIndex]['is_spot'],
+                count:1
+            };   
+            if(res.data.code==-1){
+                //  若未登录 将购物车信息保存到客户端
+                let k=0;
+                let products=JSON.parse(localStorage.getItem("cartProducts"));
+                for (const p of products) {
+                    // 查看是否已经有此商品
+                   if(p.pid==cartProduct.pid) {
+                       p.count+=1;
+                   }else{
+                       k+=1;
+                   }
+                }
+                if(k==products.length){
+                    products.push(cartProduct);
+                }
+                localStorage.setItem("cartProducts",JSON.stringify(products));
+                console.log(localStorage.getItem("cartProducts"));
+            }else{
+                // 将商品信息插入到购物车表
+                var addCartRes=await this.axios.get('cart/addCart',{
+                    params:cartProduct
+                });
+                if(addCartRes.data.code==1){
+                    console.log("商品添加至购物车");
+                }
+            }  
+        })();
+
+        },
         // 鼠标离开 重新开始轮播
         startScroll(e){
              if(e.target.nodeName=="A"){
@@ -268,6 +317,10 @@ export default {
                 // console.log(this.product,this.pics,this.specs);
                 console.log(this.pics);
             })();
+        },
+        // 选择规格
+        specClick(index){
+            this.specIndex=index;
         },
         //选择颜色事件
         changeColor(e){

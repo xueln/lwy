@@ -10,6 +10,10 @@ a{
 	text-decoration:none;
 	color: #333;
 }
+input{
+	outline: 0;
+	border: 0;
+}
 /*设置页面的最小宽度 默认字体 颜色*/
 body{
 	min-width:1200px;
@@ -59,4 +63,7 @@ body{
 }
 .mt20{
 	margin-top:20px;
+}
+.block2{
+	display:block;
 }
