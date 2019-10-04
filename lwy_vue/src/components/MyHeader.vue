@@ -101,26 +101,26 @@
                 </router-link>
                 <router-link to="" class="car block">
                     <i id="car_icon" class="block"></i>
-                    <span class="cart_count">2</span>
+                    <span class="cart_count" v-text="cartCount"></span>
                     <div  class="box cart_box">
                         <i class="triangle cart_tri"></i>
-                        <p v-show="false" class="cart_empty">购物车中还没有商品，赶紧选购吧！</p>
-                        <div v-show="true">
+                        <p v-show="!cartCount" class="cart_empty">购物车中还没有商品，赶紧选购吧！</p>
+                        <div v-show="cartCount">
                             <ul>
-                                <li>
+                                <li v-for="(item,index) of cartList" :key="index">
                                     <div class="font12">
                                         <router-link to="">  
-                                            <img src="../../public/images/index/birthday01.jpg" alt="">
+                                            <img :src="imgUrl+item.pic" alt="">
                                         </router-link>
                                         <div>
-                                            <router-link to=""  class="font12 changeRed">酷玩音乐台灯</router-link><br>   
-                                            <span>礼物款式：普通款</span><br>
-                                            <span>个性定制：直接购买</span>
+                                            <router-link :to="`/Details/${item.pid}`"  class="font12 changeRed" v-text="item.title"></router-link><br>   
+                                            <span v-show="item.color">礼物颜色：{{item.color}}</span><br>
+                                            <span>个性定制：{{item.spec}}</span>
                                         </div>
                                     </div>
                                     <p>
-                                    <span>X{{1}}</span> <br>
-                                    <span>¥{{49.0}}</span> <br>
+                                    <span>X{{item.count}}</span> <br>
+                                    <span>¥{{item.price | priceFilter}}</span> <br>
                                     <a href="javascript:;"  class="font12 changeRed">删除</a>
                                     </p>
 
@@ -128,11 +128,11 @@
                             </ul>
                             <div class="banlance">
                                 <span class="total_left">
-                                    共计{{1+1}}件商品
+                                    共计{{cartList.length}}件商品
                                     <br>
                                     <span>
                                         <b>合计：</b>
-                                        <span class="c-d93732">¥{{1}}</span>
+                                        <span class="c-d93732">¥{{total | priceFilter}}</span>
                                     </span>
                                 </span>
                                 <router-link to="/Cart" >去购物车结算</router-link>
@@ -150,7 +150,10 @@
 export default {
     data(){
         return {
-           kw:" "
+           kw:" ",
+           cartList:[],
+           cartCount:0,
+           imgUrl:"http://127.0.0.1:5050/"
         }
     },
     methods:{
@@ -161,10 +164,20 @@ export default {
     },
     created(){
         this.kw=this.$route.params.kw || " ";
+        this.cartList=JSON.parse(localStorage.getItem("cartProducts"));
+        this.cartCount=this.cartList.length;
     },
     watch:{
         $route(){
            this.kw=this.$route.params.kw; 
+        }
+    },
+    computed:{
+        total(){
+            return this.cartList.reduce((prev,value)=>{
+                prev+=value.price*value.count;
+                return prev;
+            },0);
         }
     }
 }

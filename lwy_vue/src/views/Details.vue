@@ -165,8 +165,7 @@ export default {
                 return;
             }
         // 判断用户是否是登录状态
-        (async ()=>{
-            var res=await this.axios.get('user/isLogin');
+        (async ()=>{  
             var cartProduct={
                 pid:this.product.pid,
                 pic:this.pics[this.colorIndex].sm,
@@ -174,15 +173,25 @@ export default {
                 spec:this.specs[this.specIndex].spec,
                 price:this.product.price,
                 is_spot:this.pics[this.colorIndex]['is_spot'],
+                color:this.pics[this.colorIndex].color,
                 count:1
-            };   
+            }; 
+            var res=await this.axios.get('user/isLogin');  
             if(res.data.code==-1){
                 //  若未登录 将购物车信息保存到客户端
+                console.log("未登录"+res.data.code);
                 let k=0;
                 let products=JSON.parse(localStorage.getItem("cartProducts"));
+                // 如果浏览器端没有存储的商品数据 不进行遍历 直接将数据放进去
+                if(!products){
+                    products=[];
+                    products.push(cartProduct);
+                    localStorage.setItem("cartProducts",JSON.stringify(products));
+                    return;
+                }
                 for (const p of products) {
                     // 查看是否已经有此商品
-                   if(p.pid==cartProduct.pid) {
+                   if(p.pid==cartProduct.pid  && p.color==cartProduct.color) {
                        p.count+=1;
                    }else{
                        k+=1;
@@ -194,6 +203,7 @@ export default {
                 localStorage.setItem("cartProducts",JSON.stringify(products));
                 console.log(localStorage.getItem("cartProducts"));
             }else{
+                console.log("登录"+res.data.code);
                 // 将商品信息插入到购物车表
                 var addCartRes=await this.axios.get('cart/addCart',{
                     params:cartProduct
@@ -202,6 +212,7 @@ export default {
                     console.log("商品添加至购物车");
                 }
             }  
+            this.$router.push('/Cart');
         })();
 
         },

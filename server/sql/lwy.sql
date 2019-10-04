@@ -117,7 +117,8 @@ CREATE TABLE lwy_shopping_cart(
 	spec VARCHAR(100),
 	price DECIMAL(10,2),
 	is_spot BOOLEAN, #是否有库存
-	count INT          
+	count INT,
+	color VARCHAR(50)
 );
 
 

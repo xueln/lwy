@@ -56,7 +56,7 @@ userRouter.post('/getUser',(req,res)=>{
                 console.log(req.session);
                 // 保存session信息
                 req.session.uid=result[0].uid;
-                console.log(req.session);
+                console.log('uid='+req.session.uid);
                 
             }else{
                 res.send({code:-1,msg:"用户名或密码错误"});
@@ -67,9 +67,10 @@ userRouter.post('/getUser',(req,res)=>{
 });
 // 收藏 判断是否登录 登录后才能收藏
 userRouter.get("/isLogin",(req,res)=>{
+    var uid=req.session.uid;
+    console.log(uid);
     if(!req.session.uid){
         res.send({code:-1,msg:"请先登录"});
-        return;
     }else{
         res.send({code:1,msg:"已经登录"});
     }

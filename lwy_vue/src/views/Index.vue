@@ -332,13 +332,7 @@ export default {
     },
    components:{'carousel':Carousel} ,
    created(){
-    //    window.onscroll=()=>{
-    //     // 页面滚动事件处理函数
-    //     // 获取页面上方滚动超出的距离(有兼容性问题)
-    //     this.scrollTop=document.body.scrollTop || document.documentElement.scrollTop;
-    //      console.log(this.scrollTop);
-        
-    //    }
+   
    }
 }
 </script>
