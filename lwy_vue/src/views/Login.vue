@@ -10,10 +10,10 @@
             <div class="content">
                 <h2>欢迎回来 
                 <span class="no_user">还没有账号?
-                    <a href="javascript:;">现在注册</a>
+                    <a href="javascript:;" @click.prevent="goreg">现在注册</a>
                 </span>
                 </h2>
-                <input  id="phone" placeholder="请输入手机号 / 邮箱" v-model="myPhone" >
+                <input  id="phone" placeholder="请输入手机号 / 邮箱" v-model="myPhone" v-autoFocus>
                 <input id="upwd" placeholder="请输入密码" v-model="myPwd">
                 <input @click="loginNow"  type="button" value="立即登录" id="login">
                 <p>
@@ -46,41 +46,53 @@
     </div>
 </template>
 <script>
+import {mapActions,mapGetters} from 'vuex'
 export default {
     data(){
         return{
-            myPhone:"",
-            myPwd:""
+            myPhone:"15101570073",
+            myPwd:"123456n"
         }
     },
     methods:{
+        ...mapActions(["userLogin"]),
         loginNow(){
+            // 非空验证
             if(this.myPhone=="" || this.myPwd==""){
                 alert("用户名或密码不能为空");
                 document.getElementById("phone").focus();
                 return;
             }
+            // 登录 保留状态
             (async ()=>{
-                var res=await this.axios.post('user/getUser',this.QS.stringify({
+                await this.userLogin(this.QS.stringify({
                     iphone:this.myPhone,
                     upwd:this.myPwd
                 }));
-                console.log(res.data);
-                if(res.data.code==1){
+                if(this.getIsLogin){
                     alert("登录成功");
                     this.$router.push('Index');
                 }else{
                     alert("用户名或密码错误");
-                    document.getElementById("phone").focus();
                 }
                 this.myPhone="";
                 this.myPwd="";
                  
             })();
+        },
+        goreg(){
+            this.$router.push('/Register');
         }
     },
-    mounted(){
-        document.getElementById("phone").focus();
+    computed:{
+        ...mapGetters(["getIsLogin"])
+    },
+    directives:{
+        "autoFocus":{
+            inserted(dom){
+                dom.focus();
+            }
+        }
     }
 }
 </script>

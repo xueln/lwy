@@ -28,9 +28,8 @@ export default new Router({
      component: Details,
      props:true
     },
-    {path: '/Products/:kw',
-     component: Products,
-     props:true
+    {path: '/Products',
+     component: Products
     },
     {path: '/Cart',
      component: Cart

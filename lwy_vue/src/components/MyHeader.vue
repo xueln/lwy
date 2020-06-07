@@ -89,23 +89,25 @@
                     <div class="box user_box">
                         <i class="triangle"></i>
                         <ul>
-                            <li>
+                            <li v-show="!getIsLogin">
                                 <router-link to="/Login" class="changeRed">登录</router-link>/
                                 <router-link to="/Register" class="changeRed">注册</router-link>
                             </li>
+                            <li v-show="getIsLogin" v-text="getuserInfo.unum"></li>
                             <li><router-link to="" class="changeRed">浏览历史</router-link></li>
                             <li><router-link to="" class="changeRed">我的订单</router-link></li>
                             <li><router-link to="" class="changeRed">我的收藏</router-link></li>
+                            <li v-show="getIsLogin" @click="logout"><router-link to="" class="changeRed">退出登录</router-link></li>
                         </ul>
                     </div>
                 </router-link>
-                <router-link to="" class="car block">
+                <router-link to="/Cart" class="car block">
                     <i id="car_icon" class="block"></i>
-                    <span class="cart_count" v-text="cartCount"></span>
+                    <span class="cart_count" v-text="getCount"></span>
                     <div  class="box cart_box">
                         <i class="triangle cart_tri"></i>
-                        <p v-show="!cartCount" class="cart_empty">购物车中还没有商品，赶紧选购吧！</p>
-                        <div v-show="cartCount">
+                        <p v-if="getCount==0" class="cart_empty">购物车中还没有商品，赶紧选购吧！</p>
+                        <div v-else>
                             <ul>
                                 <li v-for="(item,index) of cartList" :key="index">
                                     <div class="font12">
@@ -121,7 +123,7 @@
                                     <p>
                                     <span>X{{item.count}}</span> <br>
                                     <span>¥{{item.price | priceFilter}}</span> <br>
-                                    <a href="javascript:;"  class="font12 changeRed">删除</a>
+                                    <a href="javascript:;"  class="font12 changeRed" @click.prevent="delProduct(index)">删除</a>
                                     </p>
 
                                 </li>
@@ -147,25 +149,44 @@
 </template>
 
 <script>
+import {mapGetters,mapActions} from 'vuex'
 export default {
     data(){
         return {
            kw:" ",
            cartList:[],
-           cartCount:0,
+        //    cartCount:0,
            imgUrl:"http://127.0.0.1:5050/"
         }
     },
     methods:{
+        ...mapActions(["userLogout","cartInit","del"]),
         search(){
             this.$router.push("/Products/"+this.kw);
             this.$emit("kwHandle",this.kw);
+        },
+        logout(){
+            console.log('jjjj');
+            (async ()=>{
+                this.userLogout();
+                console.log(this.getIsLogin);
+            })();
+        },
+        // 删除商品
+        delProduct(i){
+            console.log("删除商品"+i);
+            this.del({cid:this.cartList[i].cid,i});
         }
     },
     created(){
-        this.kw=this.$route.params.kw || " ";
-        this.cartList=JSON.parse(localStorage.getItem("cartProducts"));
-        this.cartCount=this.cartList.length;
+        
+        (async ()=>{
+            // 购物车数据初始化
+            await this.cartInit();
+            this.kw=this.$route.params.kw || " ";
+            this.cartList=this.getCartList;
+            // this.cartCount=this.getCount;
+        })();
     },
     watch:{
         $route(){
@@ -173,6 +194,7 @@ export default {
         }
     },
     computed:{
+        ...mapGetters(["getIsLogin","getuserInfo","getCartList","getCount"]),
         total(){
             return this.cartList.reduce((prev,value)=>{
                 prev+=value.price*value.count;

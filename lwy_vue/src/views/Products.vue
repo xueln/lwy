@@ -78,7 +78,7 @@ export default {
           diyClassList:[{active:false},{active:false},{active:false},{active:false},{active:false}]
         }
     },
-    props:{kw:{type:String}},
+    // props:{kw:{type:String}},
     components:{'where-item':WhereItem},
     created(){
         this.loadMore();
@@ -133,10 +133,10 @@ export default {
     },
     watch:{
         // 只要地址栏参数发生改变
-        kw(){
-            // 就重新查询
-            console.log(this.kw);
-        }
+        // $route(){
+        //     // 就重新查询
+        //     console.log(this.kw);
+        // }
     }
 }
 </script>

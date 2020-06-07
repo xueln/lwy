@@ -1,6 +1,7 @@
 <template>
     <div>
         <my-header></my-header>
+        <!-- <div id="confirm"></div> -->
         <div id="page_detail">
             <bread :breadName="['BeeFo小唱机']"></bread>
             <div class="goods_info">
@@ -112,6 +113,7 @@
     </div>
 </template>
 <script>
+import {mapGetters,mapActions} from 'vuex'
 export default {
     data(){
         return{
@@ -147,6 +149,8 @@ export default {
     props:{pid:{default:0}},
     created(){
         // console.log(this.pid);
+        // 初始化cart的state
+        this.cartInit();
         this.loadMore();    
         this.guessScroll();
     },
@@ -158,6 +162,7 @@ export default {
         // 控制轮播指示器 鼠标滑过边框变红的样式数组初始化
     },
     methods:{
+        ...mapActions(["cartInit","addCart"]),
         // 点击立即购买 将商品添加到购物车 并跳转到购物车
         goCart(){
             if(this.colorIndex==-1){
@@ -176,42 +181,10 @@ export default {
                 color:this.pics[this.colorIndex].color,
                 count:1
             }; 
-            var res=await this.axios.get('user/isLogin');  
-            if(res.data.code==-1){
-                //  若未登录 将购物车信息保存到客户端
-                console.log("未登录"+res.data.code);
-                let k=0;
-                let products=JSON.parse(localStorage.getItem("cartProducts"));
-                // 如果浏览器端没有存储的商品数据 不进行遍历 直接将数据放进去
-                if(!products){
-                    products=[];
-                    products.push(cartProduct);
-                    localStorage.setItem("cartProducts",JSON.stringify(products));
-                    return;
-                }
-                for (const p of products) {
-                    // 查看是否已经有此商品
-                   if(p.pid==cartProduct.pid  && p.color==cartProduct.color) {
-                       p.count+=1;
-                   }else{
-                       k+=1;
-                   }
-                }
-                if(k==products.length){
-                    products.push(cartProduct);
-                }
-                localStorage.setItem("cartProducts",JSON.stringify(products));
-                console.log(localStorage.getItem("cartProducts"));
-            }else{
-                console.log("登录"+res.data.code);
-                // 将商品信息插入到购物车表
-                var addCartRes=await this.axios.get('cart/addCart',{
-                    params:cartProduct
-                });
-                if(addCartRes.data.code==1){
-                    console.log("商品添加至购物车");
-                }
-            }  
+            console.log(cartProduct);
+            await this.addCart(cartProduct);
+            console.log(this.getCount);
+            
             this.$router.push('/Cart');
         })();
 
@@ -371,7 +344,7 @@ export default {
         }
     },
     computed:{
-        
+        ...mapGetters(["getIsLogin","getCount","getCartList"])
     }
 
 }

@@ -48,16 +48,17 @@ userRouter.post('/getUser',(req,res)=>{
         });
     }else{
         //登录接口
-        sql="select uid,unum from lwy_user where iphone=? and upwd=?";
+        sql="select uid,unum,iphone from lwy_user where iphone=? and upwd=?";
         pool.query(sql,[obj.iphone,obj.upwd],(err,result)=>{
             if(err) throw err;
             if(result.length>0){
-                res.send({code:1,msg:"用户密码正确",data:result});
-                console.log(req.session);
-                // 保存session信息
+	// 保存session信息
                 req.session.uid=result[0].uid;
                 console.log('uid='+req.session.uid);
-                
+	//不往前端传递uid
+	delete result[0].uid;
+                res.send({code:1,msg:"用户密码正确",data:result});
+                console.log(req.session);    
             }else{
                 res.send({code:-1,msg:"用户名或密码错误"});
             }
@@ -65,15 +66,21 @@ userRouter.post('/getUser',(req,res)=>{
     }
     
 });
-// 收藏 判断是否登录 登录后才能收藏
-userRouter.get("/isLogin",(req,res)=>{
-    var uid=req.session.uid;
-    console.log(uid);
-    if(!req.session.uid){
-        res.send({code:-1,msg:"请先登录"});
-    }else{
-        res.send({code:1,msg:"已经登录"});
-    }
+//注销
+userRouter.get("/logout",(req,res)=>{
+       req.session=null;
+       console.log(req.session);
+      res.send({code:1,msg:'clear'});
 });
+// 收藏 判断是否登录 登录后才能收藏
+// userRouter.get("/isLogin",(req,res)=>{
+//     var uid=req.session.uid;
+//     console.log(uid);
+//     if(!req.session.uid){
+//         res.send({code:-1,msg:"请先登录"});
+//     }else{
+//         res.send({code:1,msg:"已经登录"});
+//     }
+// });
 // 导出userRouter对象
 module.exports=userRouter;

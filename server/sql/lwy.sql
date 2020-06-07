@@ -5,7 +5,7 @@ USE lwy;
 #用户表
 CREATE TABLE lwy_user(
   uid BIGINT PRIMARY KEY AUTO_INCREMENT,
-	unum VARCHAR(20),
+  unum VARCHAR(20),
   iphone VARCHAR(16) NOT NULL UNIQUE, 
   upwd VARCHAR(32) NOT NULL,
   email VARCHAR(50),
@@ -109,7 +109,7 @@ CREATE TABLE lwy_order_detail(
 );
 #购物车表
 CREATE TABLE lwy_shopping_cart(
-	cid INT,
+	cid INT PRIMARY KEY AUTO_INCREMENT,
 	user_id BIGINT,
 	product_id BIGINT,
 	pic VARCHAR(50),

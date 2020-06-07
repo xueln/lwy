@@ -8,19 +8,23 @@
                     <span>我的购物车</span>
                 </div>
                 <ul class="d-flex">
-                    <li>
-                        <span>US000061487</span>     
+                    <li v-show="getIsLogin">
+                        <span v-text="getuserInfo.unum"></span>     
                     </li>
-                    <li>
+                    <li v-show="getIsLogin">
                         <router-link to="" class="changeRed">个人中心</router-link>
                     </li>
-                    <li>
+                    <li v-show="getIsLogin">
                         <router-link to="" class="changeRed">我的订单</router-link>
+                    </li>
+                    <li v-show="!getIsLogin">
+                        <router-link to="/Login" class="changeRed">登录</router-link> /
+                        <router-link to="/Register" class="changeRed">注册</router-link>
                     </li>
                     <li>
                         <router-link to="" class="changeRed">浏览历史</router-link>
                     </li>    
-                    <li>
+                    <li v-show="getIsLogin">
                         <router-link to="" class="changeRed">退出登录</router-link>
                     </li>    
                 </ul>
@@ -29,10 +33,10 @@
         <!-- 面包屑 -->
         <bread :breadName="['购物车']"></bread>
         <!-- 购物车中没有商品时显示 -->
-        <div v-if="!list.length" class="cartEmpty w1200 bg_fff">
+        <div v-if="getCount==0" class="cartEmpty w1200 bg_fff">
             <p>购物车中没有礼物</p>
             <p>
-                <router-link class="changeRed" to="">继续购物</router-link>
+                <router-link class="changeRed" to="/Products">继续购物</router-link>
             </p>
         </div>
         <!-- 有商品时的显示 -->
@@ -43,10 +47,12 @@
                 <li>数量</li>
                 <li>库存</li>
                 <li>小计</li>
-                <li>操作</li>
+                <li>
+                    全选<input type="checkbox" v-model="allCheck" @change="allCheckChange">
+                </li>
             </ul>
             <ul class="detail">
-                <li @click="dele" v-for="(item,index) of list" :key="index" class="d-flex">
+                <li v-for="(item,index) of list" :key="index" class="d-flex">
                     <div class="d-flex">
                         <router-link :to="'/Details/'+item.pid">
                             <img :src="imgUrl+item.pic" alt="">
@@ -59,16 +65,18 @@
                     </div>
                     <div>¥{{item.price | priceFilter}}</div>
                     <div>
-                        <div>
-                            <a href="javascript:;" @click="countChange(-1,index)"></a>
-                            <input type="text" v-model="item.count">
-                            <a href="javascript:;" @click="countChange(1,index)"></a>
-                        </div> 
+                        
+                        <cart-btn :count="item.count" :i="index" :list="list"></cart-btn>
+                        <!-- <a href="javascript:;" @click.prevent="countChange($event,-1)" :data-i="index"></a>
+                        <input type="text" v-model="item.count">
+                        <a href="javascript:;" @click.prevent="countChange($event,1)" :data-i="index"></a> -->
+                        
                     </div>
                     <div v-text="item['is_spot']?'有库存':'无库存'"></div>
                     <div>¥{{item.price*item.count | priceFilter}}</div>
                     <div>
-                        <a href="javascript:;" data-i="index" id="del"></a>
+                        <!-- <a href="javascript:;" data-i="index" id="del"></a> -->
+                        <input type="checkbox" :checked="getCheckStatus[item.cid]" @change="statusChange(item.cid)">
                     </div> 
                 </li>
             </ul>
@@ -79,9 +87,9 @@
                     继续购物
                 </router-link>
                 <div class="right d-flex">
-                    <span class="font16" v-text="`共${list.length}件商品`"></span>
+                    <span class="font16" v-text="`共${getSelectCount}件商品`"></span>
                     <span class="font16">合计：
-                        <b>¥ {{total | priceFilter}}</b>
+                        <b>¥ {{getSelectTotal | priceFilter}}</b>
                     </span>
                     <router-link to="" class="changeRed font16">去结算</router-link>
                 </div>
@@ -91,108 +99,83 @@
     </div>
 </template>
 <script>
+import {mapGetters,mapActions, mapMutations} from 'vuex';
+import CartBtn from '../components/cart/CartBtn.vue'
 export default {
     data(){
         return {
             list:[],
             imgUrl:'http://127.0.0.1:5050/',
-            pcount:0,
-            LoginState:false
+            // 商品勾选值
+            checkedList:[],
+            allCheck:true
         }
     },
     methods:{
-        // 删除当前商品
-        dele(e){
-            if(e.target.nodeName=="A" && e.target.id=="del"){
-                var i=e.target.dataset.i;
-                this.list.splice(i,1);
-                let products=JSON.parse(localStorage.getItem("cartProducts"));
-                products.splice(i,1);
-                localStorage.setItem("cartProducts",JSON.stringify(products));
-            }
-        },
+        ...mapActions(["cartInit","addCart","changeCart","del","checkedInit"]),
+        ...mapMutations(["setAllCheck","changeStatus"]),
         // 购物车数量单击按钮事件
-        countChange(val,i){
-            if(val==-1){
-                if(this.list[i].count==1){
-                    return;
-                }
-                this.list[i].count-=1;
-            }else if(val==1){
-                this.list[i].count+=1;
+        countChange(e,val){
+            var i=parseInt(e.target.dataset.i);
+            var count=this.list[i].count;
+            count+=val;
+            console.log(count);
+            if(count<=0){
+                // 应该执行删除操作
+                console.log("应该执行删除操作");
+                this.del({cid:this.list[i].cid,i:i});
+            }else{
+               if(count>=40){
+                    count=40;
+                } 
+            // 将修改更新到vuex中
+            this.changeCart({cid:this.list[i].cid,count});
             }
-            // 将变化的数量保存到localstorage中
-            let products=JSON.parse(localStorage.getItem("cartProducts"));
-            products[i].count=this.list[i].count;
-            localStorage.setItem("cartProducts",JSON.stringify(products));
+
         },
-        // 判断是否登录
-        isLogin(){
-            (async ()=>{
-                var res=await this.axios.get('user/isLogin');
-                if(res.data.code==-1){
-                    console.log('未登录');
-                    this.LoginState=true;
-                }else{
-                    console.log('已登录');
-                    this.LoginState=false;
-                }
-            })();
+        allCheckChange(){
+            this.setAllCheck(!this.getIsAllCheck);
+        },
+        statusChange(cid){
+            this.changeStatus(cid);
+            console.log(this.getIsAllCheck);
+            this.allCheck=this.getIsAllCheck;
+            // console.log(this.getCheckStatus);
         },
         loadMore(){
-            this.isLogin();
-            // 未登录 读取浏览器存储的数据
-            if(!this.LoginState){
-                this.list=this.$store.getters.getstorageCart;
-                console.log(this.list);
-            }else{
-                // 如果用户登录状态 浏览器中有商品数据 则将其逐个添加到数据库中
-                var localList=this.$store.getters.getstorageCart;
-                if(localList){
-                    var addCartList=[];
-                    for (const p of localList) {
-                        addCartList.push(
-                           this.axios.get('cart/addCart',{
-                            params:{
-                                pid:p.pid,
-                                pic:p.sm,
-                                title:p.title,
-                                spec:p.spec,
-                                price:p.price,
-                                is_spot:p['is_spot'],
-                                color:p.color,
-                                count:p.count
-                            }
-                        }) 
-                        );
-                    }
-                    Promise.all(addCartList).then(arr=>{
-                        var result=arr.every((ele)=>{
-                            if(ele==1){
-                                return true;
-                            }
-                        });
-                        console.log(result);
-                    }); 
-                }
-            }
-        }
+            // 从vuex中拿到购物车数据
+            this.list=this.getCartList;
+            // console.log(this.list[0].color);
+        },
+        
     },
     created(){
-        // 用户是否登录？登录状态查询当前浏览器中cartProducts是否有信息？
-        // 浏览器端有存储信息 将存储信息中的
-        this.loadMore();
-        console.log("购物车");
-
+        // 初始化cart的state
+        (async ()=>{
+            await this.cartInit();
+            this.checkedInit();
+            // console.log(this.getIsAllCheck);
+            this.allCheck=this.getIsAllCheck;
+            // console.log(this.getIsLogin);
+            // 用户是否登录？登录状态查询当前浏览器中cartProducts是否有信息？
+            // 浏览器端有存储信息 将存储信息中的
+            this.loadMore();
+        })();
+        
     },
     computed:{
+        ...mapGetters(["getIsLogin","getuserInfo","getCartList","getCount","getCheckStatus","getIsAllCheck","getSelectCount","getSelectTotal"]),
         total(){
             return this.list.reduce((prev,value)=>{
                 prev+=value.price*value.count;
                 return prev;
             },0);
         }
-    }
+    },
+    wacth:{
+        // 
+    },
+    components:{'cart-btn':CartBtn}
 }
 </script>
 <style>
