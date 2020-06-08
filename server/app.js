@@ -2,6 +2,8 @@
 var express=require('express');
 var cors=require('cors');
 const session=require('express-session');
+// 引入connect-history-api-fallback(专门支持history重定向的组件)
+const history=require('connect-history-api-fallback');
 // 引入用户路由器
 var userRouter=require('./routes/userRouter.js');
 var indexRouter=require('./routes/indexRouter.js');
@@ -20,6 +22,8 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({
     extended:false
 }));
+// 使用connect-history-api-fallback中间件
+app.use(history());
 // 跨域配置
 app.use(cors({
     origin:["http://127.0.0.1:8080","http://localhost:8080"],

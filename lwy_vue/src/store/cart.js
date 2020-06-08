@@ -100,9 +100,12 @@ export default{
             }
         }, 
         // 删除
-        delProduct(state,i){
-            // 更新总数量
-            state.cartList.splice(i,1);
+        delProduct(state,cid){
+            state.cartList.forEach((e,i,arr)=>{
+                if(e.cid==cid){
+                    arr.splice(i,1);
+                }
+            });         
             // 判断是否需要更新到localStorage中
             if(!this.getters.getIsLogin){
                 localStorage.setItem("cartlist",JSON.stringify(state.cartList));
@@ -118,6 +121,16 @@ export default{
             for (const key in temp) {
                 if (key==cid) {
                     temp[cid]=!temp[cid];
+                }
+            }
+            state.checkStatus=temp;
+            localStorage.setItem("checkStatus",JSON.stringify(temp));
+        },
+        delStatus(state,cid){
+            var temp=state.checkStatus.map(e=>e);
+            for (const key in temp) {
+                if (key==cid) {
+                    delete temp[key];  
                 }
             }
             state.checkStatus=temp;
@@ -202,7 +215,8 @@ export default{
                     console.log("商品删除成功");
                 }
             }
-            context.commit("delProduct",obj.i);
+            context.commit("delProduct",obj.cid);
+            context.commit("delStatus",obj.cid);
         },
         // 购物车勾选状态初始化
         checkedInit({state,commit}){
@@ -217,6 +231,7 @@ export default{
                         temp[c]=false;
                     }
                 }
+                
             }
             state.checkStatus=temp;
         },

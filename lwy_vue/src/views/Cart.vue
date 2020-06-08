@@ -48,7 +48,7 @@
                 <li>库存</li>
                 <li>小计</li>
                 <li>
-                    全选<input type="checkbox" v-model="allCheck" @change="allCheckChange">
+                    全选<input type="checkbox" :checked="this.getIsAllCheck" @change="allCheckChange">
                 </li>
             </ul>
             <ul class="detail">
@@ -124,6 +124,7 @@ export default {
                 // 应该执行删除操作
                 console.log("应该执行删除操作");
                 this.del({cid:this.list[i].cid,i:i});
+                
             }else{
                if(count>=40){
                     count=40;
@@ -139,7 +140,7 @@ export default {
         statusChange(cid){
             this.changeStatus(cid);
             console.log(this.getIsAllCheck);
-            this.allCheck=this.getIsAllCheck;
+            // this.allCheck=this.getIsAllCheck;
             // console.log(this.getCheckStatus);
         },
         loadMore(){
@@ -155,7 +156,6 @@ export default {
             await this.cartInit();
             this.checkedInit();
             // console.log(this.getIsAllCheck);
-            this.allCheck=this.getIsAllCheck;
             // console.log(this.getIsLogin);
             // 用户是否登录？登录状态查询当前浏览器中cartProducts是否有信息？
             // 浏览器端有存储信息 将存储信息中的
