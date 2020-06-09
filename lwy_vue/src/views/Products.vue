@@ -1,56 +1,53 @@
 <template>
-    <div>
-        <my-header></my-header>
-        <div class="productPage bg_f5f5f5">
-            <bread :breadName="['礼物搜索',`${kw}`]"></bread> 
-            <div class="where bg_fff">
-                <div class="w1200 center">
-                   <where-item   whereTitle="场合" :data="data[0]"></where-item>
-                   <where-item class="borderTop"  whereTitle="对象" :data="data[1]"></where-item>
-                   <where-item class="borderTop" whereTitle="分类" :data="data[2]"></where-item>
-                   <where-item class="borderTop" whereTitle="价格" :data="data[3]"></where-item>
+    <div class="productPage bg_f5f5f5">
+        <bread :breadName="['礼物搜索',`${kw?kw:''}`]"></bread> 
+        <div class="where bg_fff">
+            <div class="w1200 center">
+                <where-item   whereTitle="场合" :data="data[0]"></where-item>
+                <where-item class="borderTop"  whereTitle="对象" :data="data[1]"></where-item>
+                <where-item class="borderTop" whereTitle="分类" :data="data[2]"></where-item>
+                <where-item class="borderTop" whereTitle="价格" :data="data[3]"></where-item>
+            </div>
+        </div> 
+        <!-- 具体的商品列表 -->
+            <!-- 畅销｜ 最新｜ 价格由低到高｜ 价格由高到低 -->
+            <div class="w1200 where_title d-flex">
+                <div class="left" @click="order">
+                    <router-link  class="changeRed" to="" data-id="1" :class="orderIndex==1?'orderText':''">畅销</router-link>
+                    <span>|</span>
+                    <router-link to="" class="changeRed" data-id="2" :class="orderIndex==2?'orderText':''">最新</router-link>
+                    <span>|</span>
+                    <router-link to="" class="changeRed" data-id="3" :class="orderIndex==3?'orderText':''">价格由低到高</router-link>
+                    <span>|</span>
+                    <router-link to="" class="changeRed" data-id="4" :class="orderIndex==4?'orderText':''">价格由高到低</router-link>
                 </div>
-            </div> 
-            <!-- 具体的商品列表 -->
-                <!-- 畅销｜ 最新｜ 价格由低到高｜ 价格由高到低 -->
-                <div class="w1200 where_title d-flex">
-                    <div class="left" @click="order">
-                        <router-link  class="changeRed" to="" data-id="1" :class="orderIndex==1?'orderText':''">畅销</router-link>
-                        <span>|</span>
-                        <router-link to="" class="changeRed" data-id="2" :class="orderIndex==2?'orderText':''">最新</router-link>
-                        <span>|</span>
-                        <router-link to="" class="changeRed" data-id="3" :class="orderIndex==3?'orderText':''">价格由低到高</router-link>
-                        <span>|</span>
-                        <router-link to="" class="changeRed" data-id="4" :class="orderIndex==4?'orderText':''">价格由高到低</router-link>
-                    </div>
-                    <div class="right">
-                        <a href="javascript:;" class="block" @click="isDiy=!isDiy" v-text="isDiy?'√':''"></a>仅显示可定制商品
-                    </div>
+                <div class="right">
+                    <a href="javascript:;" class="block" @click="isDiy=!isDiy" v-text="isDiy?'√':''"></a>仅显示可定制商品
                 </div>
-                <ul class="w1200 proList">
-                    <li v-for="(item,index) of newProList" :key="index">
-                        <router-link :to="/Details/+item.pid">
-                             <img :src="imgUrl+item.md" alt="">
-                        </router-link>
-                        <p class="title mt20">
-                            <router-link class="changeRed" v-text="item.title" :to="/Details/+item.pid"></router-link>
-                        </p>
-                        <p v-text="'¥'+item.price.toFixed(2)"></p>
-                        <p class="mt20 font12">
-                            <a v-if="item.isDiy" class="font12" :class="item['diyClass']" href="javascript:;" @click="clickDiy(index)">可定制</a>
-                            <span>5人评价</span>
-                        </p>
-                    </li>
-                </ul>
-                   <!-- 页码 -->
-                <div class="pagers w1200">
-                    <a :class="pno==0?'':'prevHover'" disabled="true" class="prev" href="javascript:;" @click="prevNext(-1)"></a>
-                    <a  v-for="i of pageCount" :class="pno==i-1?'pnoActive':''" :key="i" class="pager" href="javascript:;" v-text="i" @click="toPage(i)"></a>
-                    <a :class="pno==pageCount-1?'':'nextHover'" class="next" @click="prevNext(1)" href="javascript:;"></a>
-                </div>
-        </div>
-        <my-footer></my-footer>
+            </div>
+            <ul class="w1200 proList">
+                <li v-for="(item,index) of newProList" :key="index">
+                    <router-link :to="/Details/+item.pid">
+                            <img :src="imgUrl+item.md" alt="">
+                    </router-link>
+                    <p class="title mt20">
+                        <router-link class="changeRed" v-text="item.title" :to="/Details/+item.pid"></router-link>
+                    </p>
+                    <p v-text="'¥'+item.price.toFixed(2)"></p>
+                    <p class="mt20 font12">
+                        <a v-if="item.isDiy" class="font12" :class="item['diyClass']" href="javascript:;" @click="clickDiy(index)">可定制</a>
+                        <span>5人评价</span>
+                    </p>
+                </li>
+            </ul>
+                <!-- 页码 -->
+            <div class="pagers w1200">
+                <a :class="pno==0?'':'prevHover'" disabled="true" class="prev" href="javascript:;" @click="prevNext(-1)"></a>
+                <a  v-for="i of pageCount" :class="pno==i-1?'pnoActive':''" :key="i" class="pager" href="javascript:;" v-text="i" @click="toPage(i)"></a>
+                <a :class="pno==pageCount-1?'':'nextHover'" class="next" @click="prevNext(1)" href="javascript:;"></a>
+            </div>
     </div>
+
 </template>
 <script>
 import WhereItem from '../components/product/WhereItem.vue'
@@ -78,17 +75,19 @@ export default {
           diyClassList:[{active:false},{active:false},{active:false},{active:false},{active:false}]
         }
     },
-    // props:{kw:{type:String}},
+    props:["kw"],
     components:{'where-item':WhereItem},
     created(){
         this.loadMore();
+        console.log('kw'+this.kw);
     },
     methods:{
        loadMore(pno=0){
            (async ()=>{
                var res=await this.axios.get('product/pros',{
                    params:{
-                       pno  //要查询第几页
+                       pno  ,//要查询第几页
+                       kw:this.kw
                    }
                });
                console.log(res.data);
@@ -137,6 +136,24 @@ export default {
         //     // 就重新查询
         //     console.log(this.kw);
         // }
+    },
+    // 从product页面跳转到detail页面 让product缓存 从detail页面再回来时，就不用重新请求数据了
+    beforeRouteLeave(to,from,next){
+        if(to.name=="detail"){
+            from.meta.keepAlive=true;
+        }else{
+            from.meta.keepAlive=false;
+        }
+        next();
+    },
+    // 从detail页面再回来时，设置product页面缓存
+    beforeRouteEnter(to,from,next){
+        if(from.name=="detail"){
+            to.meta.keepAlive=true;
+        }else{
+            to.meta.keepAlive=false;
+        }
+        next();
     }
 }
 </script>

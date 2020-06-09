@@ -162,8 +162,9 @@ export default {
     methods:{
         ...mapActions(["userLogout","cartInit","del"]),
         search(){
+            console.log(typeof this.kw);
             this.$router.push("/Products/"+this.kw);
-            this.$emit("kwHandle",this.kw);
+            // this.$emit("kwHandle",this.kw);
         },
         logout(){
             console.log('jjjj');

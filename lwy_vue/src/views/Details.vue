@@ -1,115 +1,111 @@
 <template>
-    <div>
-        <my-header></my-header>
-        <!-- <div id="confirm"></div> -->
-        <div id="page_detail">
-            <bread :breadName="['BeeFo小唱机']"></bread>
-            <div class="goods_info">
-                <div class="center w1200 d-flex">
-                    <div class="images d-flex">
-                        <!-- 小图 -->
-                        <ul class="d-flex" @mouseover="changeImg">
-                            <li v-for="(item,index) of pics" :key="index" >
-                                <img :src="imgUrl+item.sm" alt=""  :class="i==index?'borderRed':''" :data-i="index">
-                            </li>
-                        </ul>
-                        <!-- 中图 -->
-                        <div class="mdImg relative">
-                            <img :src="imgUrl+pics[i].md" alt="">
-                            <div v-show="enter" class="smMask"></div>
-                            <div class="Mask" @mouseover="enter=!enter" @mouseout="enter=!enter"></div>
+    <!-- <div id="confirm"></div> -->
+    <div id="page_detail">
+        <bread :breadName="['BeeFo小唱机']"></bread>
+        <div class="goods_info">
+            <div class="center w1200 d-flex">
+                <div class="images d-flex">
+                    <!-- 小图 -->
+                    <ul class="d-flex" @mouseover="changeImg">
+                        <li v-for="(item,index) of pics" :key="index" >
+                            <img :src="imgUrl+item.sm" alt=""  :class="i==index?'borderRed':''" :data-i="index">
+                        </li>
+                    </ul>
+                    <!-- 中图 -->
+                    <div class="mdImg relative">
+                        <img :src="imgUrl+pics[i].md" alt="">
+                        <div v-show="enter" class="smMask"></div>
+                        <div class="Mask" @mouseover="enter=!enter" @mouseout="enter=!enter"></div>
+                    </div>
+                </div>
+                <div class="goods_attr">
+                    <h2 v-text="product.title"></h2>
+                    <h3 class="subtitle" v-text="product.subtitle"></h3>
+                    <div class="good_price d-flex">
+                        <span>{{product.price.toFixed(2)}}元</span>
+                        <span class="color666" v-text="pics[i].is_spot?'有现货':'暂时缺货'"></span>
+                    </div>
+                    <div class="specs">
+                        <div>
+                            <span class="block color666">选择规格:</span>
+                            <!-- 规格与浏览器中参数id值一致时 说明是选中状态 -->
+                            <router-link @click.native="specClick(index)" :to="/Details/+item.pid" v-for="(item,index) of specs" :key="index" class="block option" :class="item.pid==pid?'optionSelected':''"  v-text="item.spec"></router-link>
+                        </div>
+                        <div class="colors" @click="changeColor">
+                            <p>
+                                <span class="block color666">礼物颜色:</span>  
+                            </p>
+                            <router-link to="" v-for="(item,index) of pics" :key="index"  :data-ci="index" class="block option" :class="colorIndex==index?'colorSelected':''" v-text="item.color"></router-link>
                         </div>
                     </div>
-                    <div class="goods_attr">
-                        <h2 v-text="product.title"></h2>
-                        <h3 class="subtitle" v-text="product.subtitle"></h3>
-                        <div class="good_price d-flex">
-                            <span>{{product.price.toFixed(2)}}元</span>
-                            <span class="color666" v-text="pics[i].is_spot?'有现货':'暂时缺货'"></span>
-                        </div>
-                        <div class="specs">
-                            <div>
-                                <span class="block color666">选择规格:</span>
-                                <!-- 规格与浏览器中参数id值一致时 说明是选中状态 -->
-                                <router-link @click.native="specClick(index)" :to="/Details/+item.pid" v-for="(item,index) of specs" :key="index" class="block option" :class="item.pid==pid?'optionSelected':''"  v-text="item.spec"></router-link>
-                            </div>
-                            <div class="colors" @click="changeColor">
-                                <p>
-                                  <span class="block color666">礼物颜色:</span>  
-                                </p>
-                                <router-link to="" v-for="(item,index) of pics" :key="index"  :data-ci="index" class="block option" :class="colorIndex==index?'colorSelected':''" v-text="item.color"></router-link>
-                            </div>
-                        </div>
-                        <div class="buy">
-                            <router-link to="" @click.native="goCart">立即购买</router-link>
-                            <a href="javascript:;" class="sc" @click="bgImgHandle">
-                                <i :class="bgImg"></i>
-                            </a>
-                        </div>
+                    <div class="buy">
+                        <router-link to="" @click.native="goCart">立即购买</router-link>
+                        <a href="javascript:;" class="sc" @click="bgImgHandle">
+                            <i :class="bgImg"></i>
+                        </a>
                     </div>
                 </div>
             </div>
-            <div id="detailNav" :class="scrollTop>navOffsetTop && navOffsetTop!=0?'fixed':''" class="details_nav">
-                <div class="w1200">
-                    <ul class="w1200 d-flex"  @click="toOwn">
-                        <li>
-                           <a href="javascript:;" data-id="detailContent" :class="detailNavIndex==0?'active':''" data-i="0">礼物详情</a> 
-                        </li>
-                        <li>
-                            <a data-id="detail_params" href="javascript:;" :class="detailNavIndex==1?'active':''"  data-i="1">规格参数</a> 
-                        </li>
-                        <li>
-                            <a href="javascript:;" :class="detailNavIndex==2?'active':''"  data-i="2">视频晒单(5)</a> 
-                        </li>
-                        <li>
-                            <a href="javascript:;" :class="detailNavIndex==3?'active':''"  data-i="3">咨询(5)</a>
-                        </li>
-                    </ul>
-                    <div class="service" v-show="scrollTop>navOffsetTop|| navOffsetTop==0">
-                        <span>需要帮助？</span>
-                        <router-link to="">QQ在线交谈</router-link>
-                    </div>
-                </div>
-            </div>
-            <div class="bg_f5f5f5" style="height:20px"></div>
-            <div class="bg_f5f5f5" id="detailContent">
-                <div class=" w1200 bg_fff">
-                    <img v-for="(item,index) of detailsImages" :key="index" :src="item" alt="">
-                </div>
-                <div id="detail_params">规格参数</div>
-                <div class="detailP_details w1200"></div>
-                <div id="detailParams">
-                </div>
-                <div id="detailComment"></div>
-                <div id="detailRequest"></div>
-                <!-- 猜你喜欢 -->
-                <div id="guess_title">猜你喜欢</div>
-                <div class="guessULike w1200">
-                    <ul :class="guessClass" :style="{'margin-left':-243*times+'px',width:guessList.length*228+(guessList.length-1)*15+'px'}">
-                        <li v-for="(item,index) of guessList" :key="index">
-                            <img :src="imgUrl+guessList[index]" alt="">
-                            <p>魔法小唱机</p>
-                            <p>¥399.0</p>
-                        </li>
-                    </ul>
-                    <!-- 备用ul -->
-                    <ul :class="guessClass" :style="{width:guessList.length*228+(guessList.length-1)*15+'px'}">
-                        <li v-for="(item,index) of guessList" :key="index">
-                            <img :src="imgUrl+guessList[index]" alt="">
-                            <p>魔法小唱机</p>
-                            <p>¥399.0</p>
-                        </li>
-                    </ul>
-                </div>
-                <!-- 指示器 -->
-                <div class="directors" @mouseover="scrollDire" @mouseout="startScroll">
-                    <a href="javacsript:;" v-for="i of guessList.length%5+1" :key="i" :data-i="i-1" :class="i-1==times ||(i==guessList.length%5 && times>3)?'borderRed':''"></a>
-                </div>
-            </div>
-            <!-- 子组件将scrollTop传给父组件 -->
-            <tool-bars @scroll="scroll"></tool-bars>   
         </div>
-        <my-footer></my-footer>
+        <div id="detailNav" :class="scrollTop>navOffsetTop && navOffsetTop!=0?'fixed':''" class="details_nav">
+            <div class="w1200">
+                <ul class="w1200 d-flex"  @click="toOwn">
+                    <li>
+                        <a href="javascript:;" data-id="detailContent" :class="detailNavIndex==0?'active':''" data-i="0">礼物详情</a> 
+                    </li>
+                    <li>
+                        <a data-id="detail_params" href="javascript:;" :class="detailNavIndex==1?'active':''"  data-i="1">规格参数</a> 
+                    </li>
+                    <li>
+                        <a href="javascript:;" :class="detailNavIndex==2?'active':''"  data-i="2">视频晒单(5)</a> 
+                    </li>
+                    <li>
+                        <a href="javascript:;" :class="detailNavIndex==3?'active':''"  data-i="3">咨询(5)</a>
+                    </li>
+                </ul>
+                <div class="service" v-show="scrollTop>navOffsetTop|| navOffsetTop==0">
+                    <span>需要帮助？</span>
+                    <router-link to="">QQ在线交谈</router-link>
+                </div>
+            </div>
+        </div>
+        <div class="bg_f5f5f5" style="height:20px"></div>
+        <div class="bg_f5f5f5" id="detailContent">
+            <div class=" w1200 bg_fff">
+                <img v-for="(item,index) of detailsImages" :key="index" :src="item" alt="">
+            </div>
+            <div id="detail_params">规格参数</div>
+            <div class="detailP_details w1200"></div>
+            <div id="detailParams">
+            </div>
+            <div id="detailComment"></div>
+            <div id="detailRequest"></div>
+            <!-- 猜你喜欢 -->
+            <div id="guess_title">猜你喜欢</div>
+            <div class="guessULike w1200">
+                <ul :class="guessClass" :style="{'margin-left':-243*times+'px',width:guessList.length*228+(guessList.length-1)*15+'px'}">
+                    <li v-for="(item,index) of guessList" :key="index">
+                        <img :src="imgUrl+guessList[index]" alt="">
+                        <p>魔法小唱机</p>
+                        <p>¥399.0</p>
+                    </li>
+                </ul>
+                <!-- 备用ul -->
+                <ul :class="guessClass" :style="{width:guessList.length*228+(guessList.length-1)*15+'px'}">
+                    <li v-for="(item,index) of guessList" :key="index">
+                        <img :src="imgUrl+guessList[index]" alt="">
+                        <p>魔法小唱机</p>
+                        <p>¥399.0</p>
+                    </li>
+                </ul>
+            </div>
+            <!-- 指示器 -->
+            <div class="directors" @mouseover="scrollDire" @mouseout="startScroll">
+                <a href="javacsript:;" v-for="i of guessList.length%5+1" :key="i" :data-i="i-1" :class="i-1==times ||(i==guessList.length%5 && times>3)?'borderRed':''"></a>
+            </div>
+        </div>
+        <!-- 子组件将scrollTop传给父组件 -->
+        <tool-bars @scroll="scroll"></tool-bars>   
     </div>
 </template>
 <script>

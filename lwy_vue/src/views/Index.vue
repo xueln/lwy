@@ -1,13 +1,11 @@
 <template>
-    <div>
-       <my-header> </my-header> 
-       <div id="main">
-            <!-- 轮播图部分 -->
-            <div class="carousel">
-                <carousel></carousel>
-            </div>
-            <!-- 提供的服务 -->
-            <div id="services" >
+    <div id="main">
+        <!-- 轮播图部分 -->
+        <div class="carousel">
+            <carousel></carousel>
+        </div>
+        <!-- 提供的服务 -->
+        <div id="services" >
             <ul class="flex_w12">
                 <li>
                 <i></i>
@@ -26,8 +24,8 @@
                 <span>精心专业设计</span>
                 </li>
             </ul>
-            </div>
-            <div id="content" class="bg_f5f5f5">
+        </div>
+        <div id="content" class="bg_f5f5f5">
             <!-- 送女神首选..... -->
             <div id="selections" >
                 <ul class="flex_w12 space_betw">
@@ -108,78 +106,78 @@
                 </a>
                 </div>
                 <ul class="pro_right space_betw">
-                <li>
-                    <a href="javascript:;">
-                    <img src="images/index/birthday01.jpg" alt="">
-                    </a>
-                    <p class="mt_20px mb_15px">
-                    <a href="javascript:;">酷玩音乐台灯</a>
-                    </p>
-                    <p>￥49.0</p>
-                </li>
-                <li>
-                    <a href="javascript:;">
-                    <img src="images/index/9.jpg" alt="">
-                    </a>
-                    <p class="mt_20px mb_15px">
-                    <a href="javascript:;">爱的旋律</a>
-                    </p>
-                    <p>￥88.0</p>
-                </li>
-                <li>
-                    <a href="javascript:;">
-                    <img src="images/index/2.jpg" alt="">
-                    </a>
-                    <p class="mt_20px mb_15px">
-                    <a href="javascript:;">花儿朵朵开</a>
-                    </p>
-                    <p>￥138.0</p>
-                </li>
-                <li>
-                    <a href="javascript:;">
-                    <img src="images/index/四叶草之恋.jpg" alt="">
-                    </a>
-                    <p class="mt_20px mb_15px">
-                    <a href="javascript:;">四叶草之恋</a>
-                    </p>
-                    <p>￥128.0</p>
-                </li>
-                <li>
-                    <a href="javascript:;">
-                    <img src="images/index/旋转潮戒.jpg" alt="">
-                    </a>
-                    <p class="mt_20px mb_15px">
-                    <a href="javascript:;">旋转潮戒</a>
-                    </p>
-                    <p>￥128.0</p>
-                </li>
-                <li>
-                    <a href="javascript:;">
-                    <img src="images/index/紧箍咒对戒.jpg" alt="">
-                    </a>
-                    <p class="mt_20px mb_15px">
-                    <a href="javascript:;">紧箍咒对戒</a>
-                    </p>
-                    <p>￥128.0</p>
-                </li>
-                <li>
-                    <a href="javascript:;">
-                    <img src="images/index/5.jpg" alt="">
-                    </a>
-                    <p class="mt_20px mb_15px">
-                    <a href="javascript:;">神烦狗</a>
-                    </p>
-                    <p>￥49.0</p>
-                </li>
-                <li>
-                    <a href="javascript:;">
-                    <img src="images/index/招财猪(1344).jpg" alt="">
-                    </a>
-                    <p class="mt_20px mb_15px">
-                    <a href="javascript:;">猪年吉祥</a>
-                    </p>
-                    <p>￥128.0</p>
-                </li>
+                    <li>
+                        <a href="javascript:;">
+                        <img src="images/index/birthday01.jpg" alt="">
+                        </a>
+                        <p class="mt_20px mb_15px">
+                        <a href="javascript:;">酷玩音乐台灯</a>
+                        </p>
+                        <p>￥49.0</p>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                        <img src="images/index/9.jpg" alt="">
+                        </a>
+                        <p class="mt_20px mb_15px">
+                        <a href="javascript:;">爱的旋律</a>
+                        </p>
+                        <p>￥88.0</p>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                        <img src="images/index/2.jpg" alt="">
+                        </a>
+                        <p class="mt_20px mb_15px">
+                        <a href="javascript:;">花儿朵朵开</a>
+                        </p>
+                        <p>￥138.0</p>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                        <img src="images/index/四叶草之恋.jpg" alt="">
+                        </a>
+                        <p class="mt_20px mb_15px">
+                        <a href="javascript:;">四叶草之恋</a>
+                        </p>
+                        <p>￥128.0</p>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                        <img src="images/index/旋转潮戒.jpg" alt="">
+                        </a>
+                        <p class="mt_20px mb_15px">
+                        <a href="javascript:;">旋转潮戒</a>
+                        </p>
+                        <p>￥128.0</p>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                        <img src="images/index/紧箍咒对戒.jpg" alt="">
+                        </a>
+                        <p class="mt_20px mb_15px">
+                        <a href="javascript:;">紧箍咒对戒</a>
+                        </p>
+                        <p>￥128.0</p>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                        <img src="images/index/5.jpg" alt="">
+                        </a>
+                        <p class="mt_20px mb_15px">
+                        <a href="javascript:;">神烦狗</a>
+                        </p>
+                        <p>￥49.0</p>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                        <img src="images/index/招财猪(1344).jpg" alt="">
+                        </a>
+                        <p class="mt_20px mb_15px">
+                        <a href="javascript:;">猪年吉祥</a>
+                        </p>
+                        <p>￥128.0</p>
+                    </li>
                 </ul>  
             </div>
             <!--创意礼物  -->
@@ -267,7 +265,7 @@
                     <p>￥109.0</p>
                     </li>
                 </ul>  
-                </div>
+            </div>
             <!--热评商品  -->
             <div class="flex_w12 space_betw m-title bg_title">
                 <h3 class="color666">热评商品</h3>
@@ -314,11 +312,9 @@
                 <p>檬檬的心情  /  ￥42.0</p>
                 </li>
             </ul>
-            </div>
-            <!-- 悬浮工具栏 -->
-            <tool-bars></tool-bars>
         </div>
-        <my-footer></my-footer>
+        <!-- 悬浮工具栏 -->
+        <tool-bars></tool-bars>
     </div>
 </template>
 

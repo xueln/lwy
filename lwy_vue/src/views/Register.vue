@@ -1,29 +1,27 @@
 <template>
-    <div>
-        <my-header></my-header>
-        <div class="reg_bg">
-            <table></table>
-            <div class="service">
-                <span>服务热线：0755-86380505 (8:00－24:00)</span>
-                <a href="javascript:;">QQ在线交谈</a>
-            </div>
-            <div class="content">
-                <h2>注册礼无忧账号</h2> 
-                <input  @blur="blurPhoneHandle" placeholder="请输入手机号" v-model="phone">
-                <div v-text="reg_phone"></div>
-                <input @blur="blurPwdHandle" type="password" placeholder="请输入密码6-12位(字母+数字)" v-model="pwd">
-                <div v-text="reg_pwd"></div>
-                <input @blur="blurPwd2Handle" type="password" placeholder="再次输入密码" v-model="pwd2">
-                <div v-text="reg_pwd2"></div>
-                <p>
-                    注册即为同意
-                    <a href="javascript:;">《礼无忧用户注册协议》</a>
-                </p>
-                <input @click="regNowHandle" type="button" value="立即注册" id="reg">
-		    </div>
-	    </div>
-        <my-footer></my-footer>
+
+    <div class="reg_bg">
+        <table></table>
+        <div class="service">
+            <span>服务热线：0755-86380505 (8:00－24:00)</span>
+            <a href="javascript:;">QQ在线交谈</a>
+        </div>
+        <div class="content">
+            <h2>注册礼无忧账号</h2> 
+            <input  @blur="blurPhoneHandle" placeholder="请输入手机号" v-model="phone">
+            <div v-text="reg_phone"></div>
+            <input @blur="blurPwdHandle" type="password" placeholder="请输入密码6-12位(字母+数字)" v-model="pwd">
+            <div v-text="reg_pwd"></div>
+            <input @blur="blurPwd2Handle" type="password" placeholder="再次输入密码" v-model="pwd2">
+            <div v-text="reg_pwd2"></div>
+            <p>
+                注册即为同意
+                <a href="javascript:;">《礼无忧用户注册协议》</a>
+            </p>
+            <input @click="regNowHandle" type="button" value="立即注册" id="reg">
+        </div>
     </div>
+
 </template>
 
 <script>
