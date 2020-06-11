@@ -1,6 +1,6 @@
-import axios from 'axios';
+
 import apis from './api';
-import QS from 'qs'
+import {addToCart,getCart,updateCart,delCartProduct} from '../assets/js/interface'
 export default{
     state:{
         cartList:[],
@@ -14,9 +14,11 @@ export default{
         },
         // 购物车商品总数量
         getCount(state){
-            return state.cartList.reduce((prev,v)=>{
-                return prev+parseInt(v.count);
-            },0);
+            var c=0;
+            for (const p of state.cartList) {
+                c+=p.count;
+            }
+            return c;
         },
         getCheckStatus(state){
             return state.checkStatus;
@@ -151,15 +153,13 @@ export default{
                 if(list.length>0){
                     console.log('localStorage中有数据');
                     list=list.map(ele => {
-                        return (axios.get('cart/addCart',{
-                            params:ele
-                        }));
+                        return (addToCart(ele));
                     });
                     await Promise.all(list).then((arr)=>{
                         arr.forEach(ele=>{
-                            console.log(ele.data.code);
+                            console.log(ele.code);
                         });
-                        if(arr.every(ele=>ele.data.code==1)){
+                        if(arr.every(ele=>ele.code==1)){
                             // 插入成功 清除localStorage
                             localStorage.removeItem("cartlist");
                             console.log("全部合并成功");
@@ -167,9 +167,12 @@ export default{
                     })
                 }
                 // 本地无数据 直接从数据库中获取
-                var res= await axios.get("cart/getCart");
-                context.state.cartList=res.data;
-                console.log("state.cartList",context.state.cartList);
+                var res= await getCart();
+                console.log(res);
+                if(res.code==200){
+                   context.state.cartList=res.result; 
+                   console.log("state.cartList",context.state.cartList);   
+                }
                 return;
             }
                 // 非登录状态 从webStorage中取
@@ -181,15 +184,17 @@ export default{
             // 判断是否是登录状态
             if(this.getters.getIsLogin){
                 //加入数据库
-                var res= await axios.get('cart/addCart',{
-                    params:product
-                });
-                // if(res.data.code==1){
+                var res= await addToCart(product);
+                if(res.code==1){
                     // 添加成功
-                    // }
+                    // 将商品信息更新到state中
+                    context.commit("addCartList",product);
+                }
+            }else{
+                // 更新到localStorage中
+                context.commit("addCartList",product);
             }   
-            // 将商品信息更新到state中
-            context.commit("addCartList",product);
+            
           
         },
         // 修改某个购物车商品
@@ -197,10 +202,12 @@ export default{
             // 判断是否是登录状态
             if(this.getters.getIsLogin){
                 // 更新数据库购物车表
-                var res=await axios.get("cart/updateCart",{params:obj});
-                if(res.data.code==1){
+                var res=await updateCart(obj);
+                if(res.code==1){
                     console.log("商品修改成功");
+                    context.commit("setCartList",obj);
                 }
+                return;
             }
             context.commit("setCartList",obj);
         },
@@ -210,10 +217,13 @@ export default{
             if(this.getters.getIsLogin){
                 // 更新数据库购物车表
                 console.log("即将删除");
-                var res=await axios.get("cart/delete",{params:{cid:obj.cid}});
-                if(res.data.code==1){
+                var res=await delCartProduct({cid:obj.cid});
+                if(res.code==1){
                     console.log("商品删除成功");
+                    context.commit("delProduct",obj.cid);
+                    context.commit("delStatus",obj.cid);
                 }
+                return;
             }
             context.commit("delProduct",obj.cid);
             context.commit("delStatus",obj.cid);

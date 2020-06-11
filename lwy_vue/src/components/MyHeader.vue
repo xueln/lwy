@@ -106,8 +106,8 @@
                     <span class="cart_count" v-text="getCount"></span>
                     <div  class="box cart_box">
                         <i class="triangle cart_tri"></i>
-                        <p v-if="getCount==0" class="cart_empty">购物车中还没有商品，赶紧选购吧！</p>
-                        <div v-else>
+                        <p v-show="getCount==0" class="cart_empty">购物车中还没有商品，赶紧选购吧！</p>
+                        <div v-show="getCount>0">
                             <ul>
                                 <li v-for="(item,index) of cartList" :key="index">
                                     <div class="font12">
@@ -167,11 +167,8 @@ export default {
             // this.$emit("kwHandle",this.kw);
         },
         logout(){
-            console.log('jjjj');
-            (async ()=>{
-                this.userLogout();
-                console.log(this.getIsLogin);
-            })();
+            this.userLogout();
+            console.log(this.getIsLogin);
         },
         // 删除商品
         delProduct(i){
@@ -186,13 +183,13 @@ export default {
             await this.cartInit();
             this.kw=this.$route.params.kw || " ";
             this.cartList=this.getCartList;
-            // this.cartCount=this.getCount;
+            console.log(this.getCount);
         })();
     },
     watch:{
         $route(){
            this.kw=this.$route.params.kw; 
-        }
+        },
     },
     computed:{
         ...mapGetters(["getIsLogin","getuserInfo","getCartList","getCount"]),

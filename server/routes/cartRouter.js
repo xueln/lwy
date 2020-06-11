@@ -13,7 +13,7 @@ cartRouter.get("/addCart",(req,res)=>{
     var is_spot=req.query['is_spot'];
     var count=parseInt(req.query.count);
     var color=req.query.color;
-    var uid=req.session.uid;
+    var uid=req.user.uid;
     console.log(req.query);
     // 查看购物车表中是否有这个商品
     var sql="select cid,count from lwy_shopping_cart where user_id=? and product_id=? and color=?"; 
@@ -78,7 +78,7 @@ cartRouter.get("/delete",(req,res)=>{
 cartRouter.get("/getCart",(req,res)=>{
     pool.query('select * from lwy_shopping_cart',(err,result)=>{
         if(err) throw err;
-        res.send(result);
+        res.send({code:200,result});
     });
 });
 // 批量插入数据

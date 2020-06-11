@@ -50,7 +50,8 @@
 
 </template>
 <script>
-import WhereItem from '../components/product/WhereItem.vue'
+import WhereItem from '../components/product/WhereItem.vue';
+import {getProductList} from '../assets/js/interface'
 import { inherits } from 'util';
 export default {
     data(){
@@ -84,19 +85,16 @@ export default {
     methods:{
        loadMore(pno=0){
            (async ()=>{
-               var res=await this.axios.get('product/pros',{
-                   params:{
+               var res=await getProductList({
                        pno  ,//要查询第几页
                        kw:this.kw
-                   }
-               });
-               console.log(res.data);
-               this.newProList=this.proList=res.data.data;
+                });
+               this.newProList=this.proList=res.data;
                for(var i=0;i<this.newProList.length;i++){
                    this.$set(this.newProList[i],"diyClass",{active:false});
                }
-               this.pno=res.data.pno;
-               this.pageCount=res.data.pageCount;
+               this.pno=res.pno;
+               this.pageCount=res.pageCount;
                console.log(this.proList,this.pno,this.pageCount);
            })();
        } ,

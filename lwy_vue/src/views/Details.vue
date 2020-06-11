@@ -109,7 +109,8 @@
     </div>
 </template>
 <script>
-import {mapGetters,mapActions} from 'vuex'
+import {mapGetters,mapActions} from 'vuex';
+import {getProduct,userStore} from '../assets/js/interface'
 export default {
     data(){
         return{
@@ -280,13 +281,7 @@ export default {
         },
         loadMore(){
             (async ()=>{
-                var res=await this.axios.get('detail/getPro',{
-                    params:{
-                        pid:this.pid
-                    }
-                });
-                // console.log(res.data);
-                var obj=res.data;
+                var obj=await getProduct(this.pid);
                 // this.product=obj.product;
                 for (const p in obj.product) {
                 // this.$set相当于手动去将this.product处理成一个响应式的属性
@@ -321,16 +316,14 @@ export default {
 
         },
         bgImgHandle(){
-            (async ()=>{
-                var res=await this.axios.get('user/isLogin');
-                console.log(res.data);
-                if(res.data.code==-1){
-                    alert("请先登录！登录后才能收藏");
-                }else{
-                    this.bgImg.bgImgClass=!this.bgImg.bgImgClass; 
-                }
-            })();
-           
+            if(this.getIsLogin){
+               (async ()=>{ 
+                   var res=await userStore();
+                   console.log(res);
+               })();
+            }else{
+                alert("请先登录！登录后才能收藏");
+            }
         }
     },
     watch:{

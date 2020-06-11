@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Index from './views/Index.vue'
 // const Index=()=>import (/*webpackChunkName:"index"*/'./views/Index.vue');
+const LoginReg=()=>import (/*webpackChunkName:"LoginReg"*/'./views/LoginReg.vue');
 // import Login from './views/Login.vue'
 const Login=()=>import (/*webpackChunkName:"Login"*/'./views/Login.vue');
 // import Register from './views/Register.vue'
@@ -22,17 +23,11 @@ export default new Router({
   mode:"history",
   routes: [
     {path:'/',component:Home,children:[
-      {path: '/',
-       component: Index
-      },
-      {path: 'Index',
-       component: Index
-      },
-      {path: 'Login',
-       component: Login
-      },
-      {path: 'Register',
-       component: Register
+        {path: '',component: Index},
+      {path: 'user',component: LoginReg,children:[
+          {name:"login",path:"/login",component:Login},
+          {path:"/Register",component:Register}
+        ]
       },
       {name:"detail",path: 'Details/:pid',
        component: Details,

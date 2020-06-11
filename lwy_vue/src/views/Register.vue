@@ -1,25 +1,17 @@
 <template>
-
-    <div class="reg_bg">
-        <table></table>
-        <div class="service">
-            <span>服务热线：0755-86380505 (8:00－24:00)</span>
-            <a href="javascript:;">QQ在线交谈</a>
-        </div>
-        <div class="content">
-            <h2>注册礼无忧账号</h2> 
-            <input  @blur="blurPhoneHandle" placeholder="请输入手机号" v-model="phone">
-            <div v-text="reg_phone"></div>
-            <input @blur="blurPwdHandle" type="password" placeholder="请输入密码6-12位(字母+数字)" v-model="pwd">
-            <div v-text="reg_pwd"></div>
-            <input @blur="blurPwd2Handle" type="password" placeholder="再次输入密码" v-model="pwd2">
-            <div v-text="reg_pwd2"></div>
-            <p>
-                注册即为同意
-                <a href="javascript:;">《礼无忧用户注册协议》</a>
-            </p>
-            <input @click="regNowHandle" type="button" value="立即注册" id="reg">
-        </div>
+    <div id="regContent">
+        <h2>注册礼无忧账号</h2> 
+        <input  @blur="blurPhoneHandle" placeholder="请输入手机号" v-model="phone">
+        <div v-text="reg_phone"></div>
+        <input @blur="blurPwdHandle" type="password" placeholder="请输入密码6-12位(字母+数字)" v-model="pwd">
+        <div v-text="reg_pwd"></div>
+        <input @blur="blurPwd2Handle" type="password" placeholder="再次输入密码" v-model="pwd2">
+        <div v-text="reg_pwd2"></div>
+        <p>
+            注册即为同意
+            <a href="javascript:;">《礼无忧用户注册协议》</a>
+        </p>
+        <input @click="regNowHandle" type="button" value="立即注册" id="reg">
     </div>
 
 </template>
@@ -27,6 +19,7 @@
 <script>
 import QS from 'qs'
 import { async } from 'q';
+import {iphoneLogin,iphoneReg} from '../assets/js/interface'
 export default {
     data(){
         return{
@@ -42,11 +35,8 @@ export default {
     methods:{
         getPhone(){
             (async ()=>{
-                var res=await this.axios.post('user/getUser',QS.stringify({
-                    iphone:this.phone
-                }));
-                console.log(res.data);
-                if(res.data.code==-1){
+                var res=await iphoneLogin({iphone:this.iphone});
+                if(res.code==-1){
                     this.reg_phone="该手机号已被注册";
                     this.regAlready=true;
                 }
@@ -103,21 +93,18 @@ export default {
             if(this.blurPhoneHandle() && this.blurPwdHandle() &&  this.blurPwd2Handle()){
                 console.log(this.phone,this.pwd);
                 (async ()=>{
-                    var res=await this.axios.post("user/v1/reg",
-                        QS.stringify({
+                    var res=await iphoneReg({
                             iphone:this.phone,
                             upwd:this.pwd2
-                        })
-                    );
-                    console.log(res.data);
-                    if(res.data.code==200){
+                    });
+                    if(res.code==200){
                       alert("注册成功！欢迎您"+this.phone); 
                     //   自动登录
-                    var loginRes=await this.axios.post('user/getUser',this.QS.stringify({
+                    var loginRes=await iphoneLogin({
                         iphone:this.phone,
                         upwd:this.pwd2
-                    }));
-                    if(loginRes.data.code==1){
+                    });
+                    if(loginRes.code==1){
                         this.$router.push('/Index');
                     }else{
                         alert('登录失败,请稍后再试');

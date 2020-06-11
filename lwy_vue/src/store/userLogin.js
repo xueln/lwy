@@ -1,8 +1,9 @@
-import axios from 'axios';
+import { iphoneLogin,userLogout } from '../assets/js/interface';
 export default{
     state:{
         islogin:JSON.parse(sessionStorage.getItem("islogin")) || false,
-        userInfo:JSON.parse(sessionStorage.getItem("userInfo")) || {}
+        userInfo:JSON.parse(sessionStorage.getItem("userInfo")) || {},
+        token:sessionStorage.getItem("token")
     },
     getters:{
         getIsLogin(state){
@@ -10,6 +11,9 @@ export default{
         },
         getuserInfo(state){
             return state.userInfo;
+        },
+        getToken(state){
+            return state.token;
         }
     },
     mutations:{
@@ -22,27 +26,36 @@ export default{
             sessionStorage.setItem("userInfo",JSON.stringify(info));
         } ,
         logout(state){
-            sessionStorage.removeItem("islogin");
-            sessionStorage.removeItem("userInfo");
             state.islogin=false;
             state.userInfo={};
-        } 
+            state.token=null;
+            sessionStorage.removeItem("islogin");
+            sessionStorage.removeItem("userInfo");
+            sessionStorage.removeItem("token");
+        } ,
+        setToken(state,token){
+            state.token=token;
+            sessionStorage.setItem("token",token);
+        },
+        clearToken(state){
+            state.token=null;
+            sessionStorage.removeItem("token");
+        }
     },
     actions:{
         async userLogin(context,user){
-            var res=await axios.post('user/getUser',user);
-            console.log(res.data);
-            if(res.data.code==1){
+            var res=await iphoneLogin(user);
+            console.log(res);
+            if(res.code==1){
+                console.log("登录成功啦");
+                console.log(typeof context.state.token);
                 context.commit("setIsLogin",true);
-                context.commit("setuserInfo",res.data.data[0]);
+                context.commit("setuserInfo",res.data[0]);
                 return true;
             }
         },
-        async userLogout(context){
-           var res=await axios.get("/user/logout");
-           console.log(res.data);
-           context.commit("logout");
-           console.log('logout');
+        userLogout({commit}){
+            commit("logout");
         }
     }
 }

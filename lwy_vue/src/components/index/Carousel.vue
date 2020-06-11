@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import {getIndex} from '../../assets/js/interface'
   export default {
   	data() {
   	  return {
@@ -25,16 +26,16 @@
                 autoplay: 3000,
                 autoplayDisableOnInteraction: false
             },
-            img_url:"http://127.0.0.1:5050/",
+            img_url:this.serverUrl,
             list:[],
             
   	  }
     },
       created(){
           (async ()=>{
-              var res=await this.axios.get('index/carousel');
+              var res=await getIndex('index/carousel');
               console.log(res);
-              this.list=res.data.msg;
+              this.list=res.msg;
           })();
       }
   }

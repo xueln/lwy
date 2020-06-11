@@ -1,6 +1,7 @@
 var express=require('express');
 // 引入pool
 var pool=require('../pool.js');
+const jwt = require('../jwt.js');
 // 创建路由
 var userRouter=express.Router();
 // 用户注册接口 resful规则(post) 
@@ -20,11 +21,16 @@ userRouter.post('/v1/reg',(req,res)=>{
         console.log(userNum);
         var sql='insert into lwy_user(iphone,upwd,unum) values(?,?,?)';
         pool.query(sql,[obj.iphone,obj.upwd,userNum],function(err,result){
-            if(err){
-                throw err;
-            }
+            if(err){throw err;}
             if(result.affectedRows>0){
-                res.send({code:200,msg:'reg succed',data:userNum});  
+                pool.query("select uid from lwy_user where iphone=?",[obj.iphone],(err,result)=>{
+                    if(err) throw err;
+                    if(result.length>0){
+                        // 生成token
+                        var token= jwt.generateToken(result[0]);
+                        res.send({code:200,msg:'reg succed',data:{unum:userNum},token});  
+                    }
+                });
             }else{
                 res.send({code:401,msg:'reg fail'});  
             }
@@ -52,35 +58,32 @@ userRouter.post('/getUser',(req,res)=>{
         pool.query(sql,[obj.iphone,obj.upwd],(err,result)=>{
             if(err) throw err;
             if(result.length>0){
-	// 保存session信息
-                req.session.uid=result[0].uid;
-                console.log('uid='+req.session.uid);
-	//不往前端传递uid
-	delete result[0].uid;
-                res.send({code:1,msg:"用户密码正确",data:result});
-                console.log(req.session);    
+	            // 保存session信息
+                // req.session.uid=result[0].uid;
+                // console.log('uid='+req.session.uid);     
+                var token= jwt.generateToken(result[0]);
+                //不往前端传递uid
+                delete result[0].uid;
+                // 生成token
+                res.send({code:1,msg:"用户密码正确",data:result,token:token});
             }else{
-                res.send({code:-1,msg:"用户名或密码错误"});
+                res.send({code:-2,msg:"用户名或密码错误"});
             }
         });
     }
     
 });
-//注销
-userRouter.get("/logout",(req,res)=>{
-       req.session=null;
-       console.log(req.session);
-      res.send({code:1,msg:'clear'});
-});
 // 收藏 判断是否登录 登录后才能收藏
-// userRouter.get("/isLogin",(req,res)=>{
-//     var uid=req.session.uid;
-//     console.log(uid);
-//     if(!req.session.uid){
-//         res.send({code:-1,msg:"请先登录"});
-//     }else{
-//         res.send({code:1,msg:"已经登录"});
-//     }
+userRouter.get("/myStore",(req,res)=>{
+    var uid=req.user.uid;
+    console.log(uid);
+    res.send({code:200,msg:'我的收藏'});
+});
+//注销
+// userRouter.get("/logout",(req,res)=>{
+//        req.session=null;
+//        console.log(req.session);
+//       res.send({code:1,msg:'clear'});
 // });
 // 导出userRouter对象
 module.exports=userRouter;
