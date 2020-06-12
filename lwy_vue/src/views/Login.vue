@@ -5,11 +5,11 @@
             <a href="javascript:;" @click.prevent="goreg">现在注册</a>
         </span>
         </h2>
-        <p :class="{vali:lgFailText}">用户名或密码错误</p>
+        <p :class="testUser">用户名或密码错误</p>
         <input  id="phone" placeholder="请输入手机号 / 邮箱" v-model="myPhone" v-autoFocus @blur="phoneBlur">
-        <p :class="{vali:pNull}">用户名不能为空</p>
+        <p :class="iphoneIsNull?'':'vali'">用户名不能为空</p>
         <input id="upwd" placeholder="请输入密码" v-model="myPwd"  @blur="pwdBlur">
-        <p :class="{vali:pwdNull}">密码不能为空</p>
+        <p :class="pwdIsNull?'':'vali'">密码不能为空</p>
         <input @click="loginNow"  type="button" value="立即登录" id="login">
         <p>
             <input type="checkbox" id="auto">
@@ -44,10 +44,9 @@ export default {
         return{
             myPhone:"",
             myPwd:"",
-            lgFailText:true,
-            pNull:true,
-            pwdNull:true,
-            flag:false
+            iphoneIsNull:true, //false 不为空
+            pwdIsNull:true,
+            testUser:{vali:true}
         }
     },
     methods:{
@@ -55,30 +54,29 @@ export default {
         phoneBlur(e){
             this.myPhone=this.myPhone.trim();
             if(!this.myPhone){
-                this.pNull=false;
+                this.iphoneIsNull=true;
             }else{
-                this.pNull=true;
+                this.iphoneIsNull=false;
             }
         },
         pwdBlur(e){
             this.myPwd=this.myPwd.trim();
             if(!this.myPwd){
-                this.pwdNull=false;
-                this.flag=false;
+                this.pwdIsNull=true;
                 
             }else{
-                this.pwdNull=true;
-                this.flag=true;
+                this.pwdIsNull=false;
+                
             }
             
             
         },   
         loginNow(){
             console.log(this.myPwd);  
-           if(this.myPhone=="" ){
+           if(this.iphoneIsNull){
                document.getElementById("phone").focus();
                return;
-           }else if(this.myPwd==""){
+           }else if(this.pwdIsNull){
                 document.getElementById("upwd").focus();
                 return ;
            }
@@ -92,7 +90,8 @@ export default {
                     alert("登录成功");
                     this.$router.push('/');
                 }else{
-                    alert("用户名或密码错误");
+                    // alert("用户名或密码错误");
+                    this.testUser.vali=false;
                 }
                 this.myPhone="";
                 this.myPwd="";

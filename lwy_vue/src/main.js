@@ -7,10 +7,15 @@ import MyFooter from './components/MyFooter.vue'
 import ToolBars from './components/ToolBars.vue'
 import Bread from './components/Bread.vue'
 import * as filters  from './assets/js/filters.js'
+import directives  from './assets/js/diretives.js'
 import axios from './assets/js/axiosConfig.js'
 // 全局注册过滤器
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
+ });
+// 全局注册自定义指令
+Object.keys(directives).forEach(key => {
+  Vue.directive(key, directives[key]);
  });
 
 // $router.push 解决重复路由问题

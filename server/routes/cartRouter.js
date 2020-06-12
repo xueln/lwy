@@ -50,9 +50,10 @@ cartRouter.get("/addCart",(req,res)=>{
 });
 // 修改商品
 cartRouter.get("/updateCart",(req,res)=>{
+    var uid=req.user.uid;
     var obj=req.query;
-    var sql="update lwy_shopping_cart set count=? where cid=?"
-    pool.query(sql,[obj.count,obj.cid],(err,result)=>{
+    var sql="update lwy_shopping_cart set count=? where cid=? and user_id=?"
+    pool.query(sql,[obj.count,obj.cid,uid],(err,result)=>{
         if(err) throw err;
         if(result.affectedRows>0){
             res.send({code:1,msg:'update succ'});
@@ -61,10 +62,11 @@ cartRouter.get("/updateCart",(req,res)=>{
 });
 // 删除商品
 cartRouter.get("/delete",(req,res)=>{
+    var uid=req.user.uid;
     var cid=req.query.cid;
     console.log(cid);
-    var sql="delete from lwy_shopping_cart  where cid=?"
-    pool.query(sql,[cid],(err,result)=>{
+    var sql="delete from lwy_shopping_cart  where cid=? and user_id=?"
+    pool.query(sql,[cid,uid],(err,result)=>{
         if(err) throw err;
         console.log(result);
         if(result.affectedRows>0){
@@ -76,8 +78,9 @@ cartRouter.get("/delete",(req,res)=>{
 
 // 查询购物车数据
 cartRouter.get("/getCart",(req,res)=>{
-    pool.query('select * from lwy_shopping_cart',(err,result)=>{
+    pool.query('select * from lwy_shopping_cart where user_id =?',[req.user.uid],(err,result)=>{
         if(err) throw err;
+        console.log(result);
         res.send({code:200,result});
     });
 });

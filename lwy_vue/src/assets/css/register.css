@@ -40,6 +40,9 @@
 	transition:background-color .3s;
 	cursor: pointer;
 }
+#regContent #reg.disabled{
+	opacity: 0.5;
+}
 #regContent #reg:hover{
 	background-color:#e52e2d;
 }

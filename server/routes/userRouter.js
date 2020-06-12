@@ -28,7 +28,7 @@ userRouter.post('/v1/reg',(req,res)=>{
                     if(result.length>0){
                         // 生成token
                         var token= jwt.generateToken(result[0]);
-                        res.send({code:200,msg:'reg succed',data:{unum:userNum},token});  
+                        res.send({code:200,msg:'reg succed',data:[{unum:userNum}],token});  
                     }
                 });
             }else{
@@ -40,6 +40,7 @@ userRouter.post('/v1/reg',(req,res)=>{
 // 查询用户
 userRouter.post('/getUser',(req,res)=>{
     var obj=req.body;
+    console.log(obj.iphone);
     var sql;
     // 注册时的手机号是否被注册验证
     if(!obj.upwd){
